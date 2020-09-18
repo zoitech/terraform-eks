@@ -3,7 +3,7 @@
 resource "aws_security_group" "Group-eks" {
   name        = "Group-eks-${var.cluster-name}"
   description = "Allow masters to communicate with nodes"
-  vpc_id      = var.vpcid
+  vpc_id      = var.vpc-id
 
   egress {
     from_port   = 0
