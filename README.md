@@ -31,5 +31,7 @@ module "eks" {
   nodes-subnets-ids              = var.nodes-subnets-ids
   eks-additional-security-groups = var.eks-additional-security-groups
   enable-autoscaler-iam          = var.enable-autoscaler-iam
+  enable-private-access          = var.enable-private-access
+  enable-public-access           = var.enable-public-access
 }
 ```

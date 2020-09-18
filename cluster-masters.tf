@@ -7,10 +7,10 @@ resource "aws_eks_cluster" "cluster-masters" {
   enabled_cluster_log_types = ["api", "audit", "authenticator", "controllerManager", "scheduler"]
 
   vpc_config {
-    security_group_ids      = concat([aws_security_group.Group-eks.id], var.eks_additional_security_groups)
-    subnet_ids              = var.cluster_subnet_ids
-    endpoint_private_access = true
-    endpoint_public_access  = false
+    security_group_ids      = concat([aws_security_group.Group-eks.id], var.eks-additional-security-groups)
+    subnet_ids              = var.cluster-subnet-ids
+    endpoint_private_access = var.enable-private-access
+    endpoint_public_access  = var.enable-public-access
   }
 
   depends_on = [

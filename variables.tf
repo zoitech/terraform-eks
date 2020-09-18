@@ -14,3 +14,5 @@ variable "nodes-subnets-ids" {}
 variable "enable-autoscaler-iam" {}
 variable "nodes-version" {}
 variable "nodes-ami-release" {}
+variable "enable-private-access" {}
+variable "enable-public-access" {}
