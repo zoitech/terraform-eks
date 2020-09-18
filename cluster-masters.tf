@@ -2,7 +2,7 @@
 
 resource "aws_eks_cluster" "cluster-masters" {
   name                      = var.cluster-name
-  version                   = var.k8s-version
+  version                   = var.eks-version
   role_arn                  = aws_iam_role.eks-masters.arn
   enabled_cluster_log_types = ["api", "audit", "authenticator", "controllerManager", "scheduler"]
 
