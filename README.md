@@ -57,11 +57,11 @@ module "eks" {
   master-tags = {              
     owner = "example@zoi.de"
     environment = "test"
-}
+  }
   
   node-tags = {
     owner = "example@zoi.de"
     environment = "test"
-}
+  }
 }
 ```
