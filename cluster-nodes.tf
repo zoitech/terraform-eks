@@ -5,9 +5,12 @@ resource "aws_eks_node_group" "cluster_nodes" {
   node_group_name = "${var.cluster-name}-nodes-${replace(var.instance-types, ".", "_")}"
   node_role_arn   = aws_iam_role.nodes.arn
   subnet_ids      = var.nodes-subnets-ids
-  instance_types  = [var.instance-types]
-  version         = var.nodes-version
-  release_version = var.nodes-ami-release
+  
+
+  launch_template {
+    id = aws_launch_template.cluster-nodes-launch-template.id
+    version = aws_launch_template.cluster-nodes-launch-template.latest_version
+  }
 
   scaling_config {
     desired_size = var.nodes-count
@@ -20,5 +23,8 @@ resource "aws_eks_node_group" "cluster_nodes" {
     aws_iam_role_policy_attachment.AmazonEKS_CNI_Policy,
     aws_iam_role_policy_attachment.AmazonEC2ContainerRegistryReadOnly,
     aws_eks_cluster.cluster-masters,
+    aws_launch_template.cluster-nodes-launch-template,
   ]
 }
+
+  

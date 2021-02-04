@@ -1,5 +1,4 @@
 #  EC2 Security Group to allow networking traffic with EKS cluster
-
 resource "aws_security_group" "Group-eks" {
   name        = "Group-eks-${var.cluster-name}"
   description = "Allow masters to communicate with nodes"
@@ -23,3 +22,6 @@ resource "aws_security_group_rule" "Group-eks-self" {
   to_port           = "0"
   type              = "ingress"
 }
+
+
+#add optional rule for ELB
