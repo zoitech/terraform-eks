@@ -12,7 +12,6 @@ resource "aws_security_group" "Group-eks" {
   }
 }
 
-
 resource "aws_security_group_rule" "Group-eks-self" {
   self              = true
   description       = "Allow communication with the cluster API Server"
@@ -22,5 +21,7 @@ resource "aws_security_group_rule" "Group-eks-self" {
   to_port           = "0"
   type              = "ingress"
 }
+
+
 
 
