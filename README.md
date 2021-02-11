@@ -42,7 +42,6 @@ module "eks" {
   cluster-name                     = var.cluster-name
   eks-version                      = var.eks-version
   nodes-version                    = var.nodes-version
-  nodes-ami-release                = var.nodes-ami-release
   nodes-count                      = var.nodes-count 
   min-nodes-count                  = var.min-nodes-count
   max-nodes-count                  = var.max-nodes-count
