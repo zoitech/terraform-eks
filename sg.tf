@@ -24,4 +24,3 @@ resource "aws_security_group_rule" "Group-eks-self" {
 }
 
 
-#add optional rule for ELB

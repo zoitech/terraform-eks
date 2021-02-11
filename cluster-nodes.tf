@@ -1,11 +1,11 @@
 # EKS Node Groups
 
 resource "aws_eks_node_group" "cluster_nodes" {
-  cluster_name    = aws_eks_cluster.cluster-masters.name
-  node_group_name = "${var.cluster-name}-nodes-${replace(var.instance-types, ".", "_")}"
-  node_role_arn   = aws_iam_role.nodes.arn
-  subnet_ids      = var.nodes-subnets-ids
-  
+  cluster_name       = aws_eks_cluster.cluster-masters.name
+  node_group_name    = "${var.cluster-name}-nodes-${replace(var.instance-types, ".", "_")}"
+  node_role_arn      = aws_iam_role.nodes.arn
+  subnet_ids         = var.nodes-subnets-ids
+  security_group_ids = var.nodes-nodes-additional-security-groups
 
   launch_template {
     id = aws_launch_template.cluster-nodes-launch-template.id
