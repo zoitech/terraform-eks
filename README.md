@@ -54,12 +54,7 @@ module "eks" {
   enable-public-access             = var.enable-public-access
   nodes-additional-security-groups = var.nodes-additional-security-groups
 
-  master-tags = {              
-    owner = "example@zoi.de"
-    environment = "test"
-  }
-  
-  node-tags = {
+  tags = {              
     owner = "example@zoi.de"
     environment = "test"
   }
