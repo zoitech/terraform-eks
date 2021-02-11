@@ -6,6 +6,7 @@ variable "nodes-subnets-ids" {}
 variable "nodes-ami-release" {}
 variable "cluster-subnet-ids" {}
 variable "instance-types" {}
+variable "nodes-version" {}
 
 variable "nodes-count" {
   default = "1"
