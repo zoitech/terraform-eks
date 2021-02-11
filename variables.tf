@@ -28,10 +28,8 @@ variable "enable-private-access" {
 variable "enable-public-access" {
   default = false
 }
-variable "master-tags" {
+variable "tags" {
   type = map(string)
 }
-variable "node-tags"{
-  type = map(string)
-}
+
    

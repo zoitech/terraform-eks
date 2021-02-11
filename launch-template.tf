@@ -8,7 +8,7 @@ resource "aws_launch_template" "cluster-nodes-launch-template" {
   tag_specifications {
     resource_type = "instance"
     
-    tags = var.node-tags
+    tags = var.tags
   } 
 
 }
