@@ -53,6 +53,7 @@ module "eks" {
   enable-private-access            = var.enable-private-access
   enable-public-access             = var.enable-public-access
   nodes-additional-security-groups = var.nodes-additional-security-groups
+  
 
   tags = {              
     owner = "example@zoi.de"
