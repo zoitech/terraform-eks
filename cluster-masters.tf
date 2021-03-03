@@ -13,6 +13,8 @@ resource "aws_eks_cluster" "cluster-masters" {
     endpoint_public_access  = var.enable-public-access
   }
 
+  tags = var.tags
+
   depends_on = [
     aws_iam_role_policy_attachment.AmazonEKSClusterPolicy,
     aws_iam_role_policy_attachment.AmazonEKSServicePolicy
