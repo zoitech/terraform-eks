@@ -12,17 +12,17 @@ resource "aws_eks_node_group" "spot_cluster_nodes" {
     version = aws_launch_template.cluster-nodes-spot-lt.latest_version
   }
 
-  #scaling_config {
-  #  desired_size = var.nodes-count
-  #  max_size     = var.max-nodes-count
-  #  min_size     = var.min-nodes-count
-  #}
+  scaling_config {
+    desired_size = var.nodes-count
+    max_size     = var.max-nodes-count
+    min_size     = var.min-nodes-count
+  }
 
   depends_on = [
-    module.eks.aws_iam_role_policy_attachment.AmazonEKSWorkerNodePolicy,
-    module.eks.aws_iam_role_policy_attachment.AmazonEKS_CNI_Policy,
-    module.eks.aws_iam_role_policy_attachment.AmazonEC2ContainerRegistryReadOnly,
-    module.eks.aws_eks_cluster.cluster-masters,
+    eks.aws_iam_role_policy_attachment.AmazonEKSWorkerNodePolicy,
+    eks.aws_iam_role_policy_attachment.AmazonEKS_CNI_Policy,
+    eks.aws_iam_role_policy_attachment.AmazonEC2ContainerRegistryReadOnly,
+    eks.aws_eks_cluster.cluster-masters,
     aws_launch_template.cluster-nodes-spot-launch-template
   ]
 }
