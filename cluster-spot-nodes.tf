@@ -1,15 +1,15 @@
 resource "aws_eks_node_group" "spot_cluster_nodes" {
   cluster_name       = var.cluster-name
   node_group_name    = "${var.cluster-name}-spot-ng"
-  node_role_arn      = module.eks.aws_iam_role.nodes.arn
+  node_role_arn      = aws_iam_role.nodes.arn
   subnet_ids         = var.nodes-subnets-ids
   version            = var.nodes-version
   capacity_type      = "SPOT"
   instance_types     = var.spot-instance-types
 
   launch_template {
-    id      = aws_launch_template.cluster-nodes-spot-lt.id
-    version = aws_launch_template.cluster-nodes-spot-lt.latest_version
+    id      = aws_launch_template.cluster-nodes-spot-launch-template.id
+    version = aws_launch_template.cluster-nodes-spot-launch-template.latest_version
   }
 
   scaling_config {
