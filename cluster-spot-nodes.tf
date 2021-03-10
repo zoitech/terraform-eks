@@ -1,4 +1,4 @@
-resource "aws_eks_node_group" "cluster_nodes" {
+resource "aws_eks_node_group" "spot_cluster_nodes" {
   cluster_name       = var.cluster-name
   node_group_name    = "${var.cluster-name}-spot-ng"
   node_role_arn      = module.eks.aws_iam_role.nodes.arn
