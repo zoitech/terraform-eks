@@ -12,11 +12,11 @@ resource "aws_eks_node_group" "cluster_nodes" {
     version = aws_launch_template.cluster-nodes-spot-lt.latest_version
   }
 
-  scaling_config {
-    desired_size = var.nodes-count
-    max_size     = var.max-nodes-count
-    min_size     = var.min-nodes-count
-  }
+  #scaling_config {
+  #  desired_size = var.nodes-count
+  #  max_size     = var.max-nodes-count
+  #  min_size     = var.min-nodes-count
+  #}
 
   depends_on = [
     module.eks.aws_iam_role_policy_attachment.AmazonEKSWorkerNodePolicy,
