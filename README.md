@@ -53,7 +53,8 @@ module "eks" {
   enable-private-access            = var.enable-private-access
   enable-public-access             = var.enable-public-access
   nodes-additional-security-groups = var.nodes-additional-security-groups
-  
+  enable-spot-instances            = var.enable-spot-instances
+  spot-instance-types              = var.spot-instance-types
 
   tags = {              
     owner = "example@zoi.de"
