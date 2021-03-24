@@ -42,5 +42,7 @@ variable "enable-public-access" {
 variable "tags" {
   type = map(string)
 }
-
+variable "enable-spot-instances" {
+  type = bool
+}
    

@@ -12,3 +12,4 @@ resource "aws_launch_template" "cluster-nodes-launch-template" {
 
 }
 
+#auto-scaling on-demand no auto-scaler
