@@ -1,6 +1,6 @@
 resource "aws_eks_node_group" "cluster_nodes" {
   cluster_name       = aws_eks_cluster.cluster-masters.name
-  node_group_name    = "${var.cluster-name}-nodes-${join(", ", (replace(var.instance-types, ".", "_")))}"
+  node_group_name    = "${var.cluster-name}-nodes-${join(", ", var.instance-types)}"
   node_role_arn      = aws_iam_role.nodes.arn
   subnet_ids         = var.nodes-subnets-ids
   version            = var.nodes-version
