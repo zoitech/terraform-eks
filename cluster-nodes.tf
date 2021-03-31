@@ -1,5 +1,3 @@
-# EKS Node Groups
-
 resource "aws_eks_node_group" "cluster_nodes" {
   cluster_name       = aws_eks_cluster.cluster-masters.name
   node_group_name    = "${var.cluster-name}-nodes-${replace(var.instance-types, ".", "_")}"
@@ -7,7 +5,7 @@ resource "aws_eks_node_group" "cluster_nodes" {
   subnet_ids         = var.nodes-subnets-ids
   version            = var.nodes-version
   instance_type      = var.instance-types
-  
+
   launch_template {
     id = aws_launch_template.cluster-nodes-launch-template.id
     version = aws_launch_template.cluster-nodes-launch-template.latest_version
