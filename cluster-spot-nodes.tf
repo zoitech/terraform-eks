@@ -14,9 +14,9 @@ resource "aws_eks_node_group" "spot_cluster_nodes" {
   }
 
   scaling_config {
-    #desired_size = var.nodes-count
+    desired_size = var.nodes-count
     max_size     = var.max-nodes-count
-    #min_size     = var.min-nodes-count
+    min_size     = var.min-nodes-count
   }
 
   depends_on = [
