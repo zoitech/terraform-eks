@@ -25,6 +25,15 @@ variable "max-nodes-count" {
 variable "min-nodes-count" {
   default = "1"
 }
+variable "spot-nodes-count" {
+  default = "1"
+}
+variable "spot-max-nodes-count" {
+  default = "5"
+}
+variable "spot-min-nodes-count" {
+  default = "1"
+}
 variable "eks-additional-security-groups" {
   type    = list(string)
   default = []
