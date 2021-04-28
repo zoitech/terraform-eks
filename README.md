@@ -47,7 +47,9 @@ module "eks" {
   max-nodes-count                  = var.primary-max-nodes-count
   instance-types                   = var.instance-types
   vpc-id                           = var.vpc-id
-  primary-subnets-ids              = var.primary-subnets-ids
+  cluster-subnets-ids              = var.cluster-subnets-ids
+  primary-node-subnets-ids         = var.primary-node-subnets-ids
+  spot-node-subnets-ids            = var.spot-node-subnets-ids
   eks-additional-security-groups   = var.eks-additional-security-groups
   enable-private-access            = var.enable-private-access
   enable-public-access             = var.enable-public-access

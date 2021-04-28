@@ -4,11 +4,17 @@ variable "cluster-name" {}
 variable "eks-version" {}
 variable "nodes-version" {}
 
-variable "primary-subnets-ids" {
-  type    = list(string)
-}
 variable "primary-instance-type" {
   type = string
+}
+variable "cluster-subnets-ids" {
+  type    = list(string)
+}
+variable "primary-node-subnets-ids"{
+  type = list(string)
+}
+variable "spot-node-subnets-ids"{
+  type = list(string)
 }
 variable "spot-instance-types" {
   type    = list(string)
