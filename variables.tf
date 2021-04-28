@@ -11,7 +11,7 @@ variable "cluster-subnet-ids" {
   type    = list(string)
 }
 variable "instance-types" {
-  type = string
+  type = list(string)
 }
 variable "spot-instance-types" {
   type    = list(string)
