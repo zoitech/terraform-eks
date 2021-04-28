@@ -5,6 +5,7 @@ resource "aws_eks_node_group" "cluster_nodes" {
   subnet_ids         = var.primary-subnets-ids
   version            = var.nodes-version
   instance_types     = [var.primary-instance-type]
+  tags               = var.tags
 
   launch_template {
     id = aws_launch_template.cluster-nodes-launch-template.id
