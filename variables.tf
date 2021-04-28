@@ -14,7 +14,8 @@ variable "instance-types" {
   type = list(string)
 }
 variable "spot-instance-types" {
-  type = list(string)
+  type    = list(string)
+  default = []
 }
 variable "nodes-count" {
   default = "1"
