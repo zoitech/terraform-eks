@@ -4,7 +4,7 @@ resource "aws_eks_node_group" "cluster_nodes" {
   node_role_arn      = aws_iam_role.nodes.arn
   subnet_ids         = var.primary-subnets-ids
   version            = var.nodes-version
-  instance_types     = [var.primary-node-group-instance-type]
+  instance_types     = [var.primary-instance-type]
 
   launch_template {
     id = aws_launch_template.cluster-nodes-launch-template.id
