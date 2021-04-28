@@ -2,24 +2,39 @@ variable "region" {}
 variable "vpc-id" {}
 variable "cluster-name" {}
 variable "eks-version" {}
-variable "nodes-subnets-ids" {}
-variable "cluster-subnet-ids" {}
-variable "instance-types" {}
 variable "nodes-version" {}
 
-variable "nodes-count" {
+variable "primary-instance-type" {
+  type = string
+}
+variable "cluster-subnets-ids" {
+  type    = list(string)
+}
+variable "primary-node-subnets-ids"{
+  type = list(string)
+}
+variable "spot-node-subnets-ids"{
+  type = list(string)
+}
+variable "spot-instance-types" {
+  type    = list(string)
+  default = []
+}
+variable "primary-nodes-count" {
   default = "1"
 }
-variable "max-nodes-count" {
+variable "primary-max-nodes-count" {
   default = "5"
 }
-variable "min-nodes-count" {
+variable "primary-min-nodes-count" {
   default = "1"
 }
 variable "eks-additional-security-groups" {
+  type    = list(string)
   default = []
 }
 variable "nodes-additional-security-groups" {
+  type    = list(string)
   default = []
 }
 variable "enable-private-access" {
@@ -31,5 +46,7 @@ variable "enable-public-access" {
 variable "tags" {
   type = map(string)
 }
-
+variable "enable-spot-instances" {
+  type = bool
+}
    

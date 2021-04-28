@@ -42,18 +42,20 @@ module "eks" {
   cluster-name                     = var.cluster-name
   eks-version                      = var.eks-version
   nodes-version                    = var.nodes-version
-  nodes-count                      = var.nodes-count 
-  min-nodes-count                  = var.min-nodes-count
-  max-nodes-count                  = var.max-nodes-count
+  nodes-count                      = var.primary-nodes-count 
+  min-nodes-count                  = var.primary-min-nodes-count
+  max-nodes-count                  = var.primary-max-nodes-count
   instance-types                   = var.instance-types
   vpc-id                           = var.vpc-id
-  cluster-subnet-ids               = var.cluster-subnet-ids
-  nodes-subnets-ids                = var.nodes-subnets-ids
+  cluster-subnets-ids              = var.cluster-subnets-ids
+  primary-node-subnets-ids         = var.primary-node-subnets-ids
+  spot-node-subnets-ids            = var.spot-node-subnets-ids
   eks-additional-security-groups   = var.eks-additional-security-groups
   enable-private-access            = var.enable-private-access
   enable-public-access             = var.enable-public-access
   nodes-additional-security-groups = var.nodes-additional-security-groups
-  
+  enable-spot-instances            = var.enable-spot-instances
+  spot-instance-types              = var.spot-instance-types
 
   tags = {              
     owner = "example@zoi.de"
