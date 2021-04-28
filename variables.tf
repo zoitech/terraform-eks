@@ -4,26 +4,23 @@ variable "cluster-name" {}
 variable "eks-version" {}
 variable "nodes-version" {}
 
-variable "nodes-subnets-ids" {
+variable "primary-subnets-ids" {
   type    = list(string)
 }
-variable "cluster-subnet-ids" {
-  type    = list(string)
-}
-variable "primary-node-group-instance-type" {
+variable "primary-instance-type" {
   type = string
 }
 variable "spot-instance-types" {
   type    = list(string)
   default = []
 }
-variable "nodes-count" {
+variable "primary-nodes-count" {
   default = "1"
 }
-variable "max-nodes-count" {
+variable "primary-max-nodes-count" {
   default = "5"
 }
-variable "min-nodes-count" {
+variable "primary-min-nodes-count" {
   default = "1"
 }
 variable "eks-additional-security-groups" {
