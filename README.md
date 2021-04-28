@@ -40,10 +40,10 @@ module "eks" {
   cluster-name                     = var.cluster-name
   eks-version                      = var.eks-version
   nodes-version                    = var.nodes-version
-  nodes-count                      = var.primary-nodes-count 
-  min-nodes-count                  = var.primary-min-nodes-count
-  max-nodes-count                  = var.primary-max-nodes-count
-  instance-types                   = var.instance-types
+  primary-nodes-count                      = var.primary-nodes-count 
+  primary-min-nodes-count          = var.primary-min-nodes-count
+  primary-max-nodes-count          = var.primary-max-nodes-count
+  primary-instance-type            = var.primary-instance-type
   vpc-id                           = var.vpc-id
   cluster-subnets-ids              = var.cluster-subnets-ids
   primary-node-subnets-ids         = var.primary-node-subnets-ids
