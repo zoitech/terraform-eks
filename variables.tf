@@ -10,8 +10,8 @@ variable "nodes-subnets-ids" {
 variable "cluster-subnet-ids" {
   type    = list(string)
 }
-variable "instance-types" {
-  type = list(string)
+variable "primary-node-group-instance-type" {
+  type = string
 }
 variable "spot-instance-types" {
   type    = list(string)
