@@ -48,6 +48,7 @@ variable "tags" {
   type = map(string)
 }
 variable "enable-spot-instances" {
-  type = bool
+  type    = bool
+  default = false
 }
    
