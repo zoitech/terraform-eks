@@ -49,4 +49,24 @@ variable "tags" {
 variable "enable-spot-instances" {
   type = bool
 }
-   
+
+#aws-auth   
+variable "map-roles" {
+  description = "Additional IAM roles to add to the aws-auth configmap. See readme for example format."
+  type = list(object({
+    rolearn  = string
+    username = string
+    groups   = list(string)
+  }))
+  default = []
+}
+
+variable "map-users" {
+  description = "Additional IAM users to add to the aws-auth configmap. See readme for example format."
+  type = list(object({
+    userarn  = string
+    username = string
+    groups   = list(string)
+  }))
+  default = []
+}

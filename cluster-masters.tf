@@ -17,6 +17,7 @@ resource "aws_eks_cluster" "cluster-masters" {
 
   depends_on = [
     aws_iam_role_policy_attachment.AmazonEKSClusterPolicy,
-    aws_iam_role_policy_attachment.AmazonEKSServicePolicy
+    aws_iam_role_policy_attachment.AmazonEKSServicePolicy,
+    aws_security_group_rule.Group-eks-self
   ]
 }

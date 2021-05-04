@@ -25,6 +25,7 @@ resource "aws_eks_node_group" "spot_cluster_nodes" {
     aws_iam_role_policy_attachment.AmazonEKS_CNI_Policy,
     aws_iam_role_policy_attachment.AmazonEC2ContainerRegistryReadOnly,
     aws_eks_cluster.cluster-masters,
-    aws_launch_template.cluster-nodes-launch-template
+    aws_launch_template.cluster-nodes-launch-template,
+    kubernetes_config_map.aws_auth
   ]
 }

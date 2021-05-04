@@ -30,6 +30,47 @@ Prohibited in EKS node group config but need to be added to Launch Template:
 - Disk size under Node Group compute configuration on Set compute and scaling configuration page.
 - You can't specify source security groups that are allowed remote access when using a launch template.
 
+## Example of aws-auth mapRoles and mapUsers
+
+variable "map-roles" {
+  description = "Additional IAM roles to add to the aws-auth configmap."
+  type = list(object({
+    rolearn  = string
+    username = string
+    groups   = list(string)
+  }))
+
+  default = [
+    {
+      rolearn  = "arn:aws:iam::66666666666:role/role1"
+      username = "role1:{{SessionName}}"
+      groups   = ["system:masters"]
+    },
+  ]
+}
+
+variable "map-users" {
+  description = "Additional IAM users to add to the aws-auth configmap."
+  type = list(object({
+    userarn  = string
+    username = string
+    groups   = list(string)
+  }))
+
+  default = [
+    {
+      userarn  = "arn:aws:iam::66666666666:user/user1"
+      username = "user1"
+      groups   = ["system:masters"]
+    },
+    {
+      userarn  = "arn:aws:iam::66666666666:user/user2"
+      username = "user2"
+      groups   = ["system:masters"]
+    },
+  ]
+}
+
 ## Usage
 
 ```
@@ -56,6 +97,8 @@ module "eks" {
   nodes-additional-security-groups = var.nodes-additional-security-groups
   enable-spot-instances            = var.enable-spot-instances
   spot-instance-types              = var.spot-instance-types
+  map-users                        = var.map-users
+  map-roles                        = var.map-roles
 
   tags = {              
     owner = "example@zoi.de"

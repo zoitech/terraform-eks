@@ -24,6 +24,7 @@ resource "aws_eks_node_group" "cluster_nodes" {
     aws_iam_role_policy_attachment.AmazonEC2ContainerRegistryReadOnly,
     aws_eks_cluster.cluster-masters,
     aws_launch_template.cluster-nodes-launch-template,
+    kubernetes_config_map.aws_auth
   ]
 }
 
