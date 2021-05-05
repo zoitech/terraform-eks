@@ -14,8 +14,8 @@ variable "primary-node-subnets-ids"{
   type = list(string)
 }
 variable "spot-node-subnets-ids"{
-  type = list(string)
-  default []
+  type    = list(string)
+  default = []
 }
 variable "spot-instance-types" {
   type    = list(string)
