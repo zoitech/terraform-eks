@@ -97,8 +97,28 @@ module "eks" {
   nodes-additional-security-groups = var.nodes-additional-security-groups
   enable-spot-instances            = var.enable-spot-instances
   spot-instance-types              = var.spot-instance-types
-  map-users                        = var.map-users
-  map-roles                        = var.map-roles
+  manage-aws-auth                  = var.manage-aws-auth
+  
+  map-users = [
+    {
+        userarn  = "arn:aws:iam::1034144444:role/blahblah"
+        username = "naointerressa"
+        groups   = ["anygroup"]
+    },
+    {
+        userarn  = data.aws_caller_identity.current.arn
+        username = "inputusername:{{SessionName}}"
+        groups   = ["system:masters"]
+    }
+  ]
+
+  map-roles = [
+    {
+        rolearn  = "arn:aws:iam::032496911465:role/platform-staging-role"
+        username = "platform-staging-role{{SessionName}}"
+        groups   = ["system:masters"]
+    }
+  ]
 
   tags = {              
     owner = "example@zoi.de"
