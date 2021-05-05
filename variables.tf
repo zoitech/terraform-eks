@@ -14,7 +14,8 @@ variable "primary-node-subnets-ids"{
   type = list(string)
 }
 variable "spot-node-subnets-ids"{
-  type = list(string)
+  type    = list(string)
+  default = []
 }
 variable "spot-instance-types" {
   type    = list(string)
@@ -47,10 +48,16 @@ variable "tags" {
   type = map(string)
 }
 variable "enable-spot-instances" {
-  type = bool
+  type    = bool
+  default = false
 }
 
-#aws-auth   
+#aws-auth  
+variable "manage-aws-auth"{
+  type    = bool
+  default = false
+} 
+
 variable "map-roles" {
   description = "Additional IAM roles to add to the aws-auth configmap. See readme for example format."
   type = list(object({

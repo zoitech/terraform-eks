@@ -1,4 +1,6 @@
 resource "kubernetes_config_map" "aws_auth" {
+  count = var.manage-aws-auth ? 1 : 0
+  
   metadata {
     name      = "aws-auth"
     namespace = "kube-system"
