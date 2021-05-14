@@ -101,8 +101,8 @@ module "eks" {
   
   map-users = [
     {
-        userarn  = "arn:aws:iam::1034144444:role/blahblah"
-        username = "naointerressa"
+        userarn  = "arn:aws:iam::1034144444:role/user1"
+        username = "user1"
         groups   = ["anygroup"]
     },
     {
@@ -114,8 +114,8 @@ module "eks" {
 
   map-roles = [
     {
-        rolearn  = "arn:aws:iam::032496911465:role/platform-staging-role"
-        username = "platform-staging-role{{SessionName}}"
+        rolearn  = "arn:aws:iam::032445645465:role/stage-role"
+        username = "stage-any-role{{SessionName}}"
         groups   = ["system:masters"]
     }
   ]
