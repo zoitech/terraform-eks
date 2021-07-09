@@ -1,6 +1,6 @@
 # EKS Setup Module Terraform
 
-**Version 0.1.0** - [Change Log](CHANGELOG.md)
+**Version 1.0.0** - [Change Log](CHANGELOG.md)
 
 Terraform code to set up an AWS EKS cluster.
 
