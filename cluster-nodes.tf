@@ -1,14 +1,14 @@
 resource "aws_eks_node_group" "cluster_nodes" {
-  cluster_name       = aws_eks_cluster.cluster-masters.name
-  node_group_name    = "${var.cluster-name}-nodes-${replace(var.primary-instance-type, ".", "_")}"
-  node_role_arn      = aws_iam_role.nodes.arn
-  subnet_ids         = var.primary-node-subnets-ids
-  version            = var.nodes-version
-  instance_types     = [var.primary-instance-type]
-  tags               = var.tags
+  cluster_name    = aws_eks_cluster.cluster-masters.name
+  node_group_name = "${var.cluster-name}-nodes-${replace(var.primary-instance-type, ".", "_")}"
+  node_role_arn   = aws_iam_role.nodes.arn
+  subnet_ids      = var.primary-node-subnets-ids
+  version         = var.nodes-version
+  instance_types  = [var.primary-instance-type]
+  tags            = var.tags
 
   launch_template {
-    id = aws_launch_template.cluster-nodes-launch-template.id
+    id      = aws_launch_template.cluster-nodes-launch-template.id
     version = aws_launch_template.cluster-nodes-launch-template.latest_version
   }
 
@@ -28,4 +28,4 @@ resource "aws_eks_node_group" "cluster_nodes" {
   ]
 }
 
-  
+
