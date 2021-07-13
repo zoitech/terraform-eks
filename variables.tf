@@ -55,8 +55,8 @@ variable "enable-spot-instances" {
 #aws-auth  
 variable "enable-aws-auth" {
   description = "Needs to be enabled at Cluster creation and allows for the management of the aws-auth configmap for the EKS cluster."
-  type    = bool
-  default = false
+  type        = bool
+  default     = false
 }
 
 variable "map-roles" {
