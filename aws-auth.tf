@@ -1,6 +1,5 @@
 resource "kubernetes_config_map" "aws_auth" {
   count = var.enable-aws-auth ? 1 : 0
-  #for_each = var.map-roles
 
   metadata {
     name      = "aws-auth"
