@@ -1,19 +1,18 @@
 locals {
-  map-roles = [{
+  map-roles = [
     for rolearn, groups in var.map-roles : => {
       rolearn  = rolearn
       username = "${split("/", rolearn)[1]}{{SessionName}}"
       groups   = groups
-    }
   }]
 
-  map-users = [{
+  map-users = [
     for userarn, groups in var.map-users : => {
       userarn  = userarn
       username = "${split("/", userarn)[1]}{{SessionName}}"
       groups   = groups
     }
-  }]
+  ]
 
   configmap_roles = [
     {
