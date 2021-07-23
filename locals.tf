@@ -1,13 +1,15 @@
 locals {
   map-roles = [
-    for rolearn, groups in var.map-roles : => {
+    for rolearn, groups in var.map-roles :
+   {
       rolearn  = rolearn
       username = "${split("/", rolearn)[1]}{{SessionName}}"
       groups   = groups
-  }]
+    }
+  ]
 
   map-users = [
-    for userarn, groups in var.map-users : => {
+    for userarn, groups in var.map-users : {
       userarn  = userarn
       username = "${split("/", userarn)[1]}{{SessionName}}"
       groups   = groups
@@ -50,3 +52,8 @@ mapUsers: |
 %{ endfor ~}
 EOF */
 }
+
+/* for rolearn, groups in {"arn:aws:iam::1034144444:role/role1" = ["group1", "group2"], "arn:aws:iam::1034144444:role/role2" = ["group1", "group2"]} : { rolearn  = rolearn, username = "${split("/", rolearn)[1]}{{SessionName}}", groups = groups}
+
+"arn:aws:iam::1034144444:role/role1" = ["group1", "group2"]
+    "arn:aws:iam::1034144444:role/role2" = ["group1", "group2"] */
