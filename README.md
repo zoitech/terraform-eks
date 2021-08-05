@@ -35,12 +35,13 @@ module "eks" {
   providers = {
     aws = aws
   }
-  source                         = "git::https://git.zoi.de/generic/tf-modules/tf-mod-aws-eks.git"
+  source                           = "git::https://git.zoi.de/generic/tf-modules/tf-mod-aws-eks.git"
   region                           = var.region
   cluster-name                     = var.cluster-name
   eks-version                      = var.eks-version
   nodes-version                    = var.nodes-version
-  primary-nodes-count                      = var.primary-nodes-count 
+  enable-primary-nodegroup         = var.enable-primary-nodegroup
+  primary-nodes-count              = var.primary-nodes-count 
   primary-min-nodes-count          = var.primary-min-nodes-count
   primary-max-nodes-count          = var.primary-max-nodes-count
   primary-instance-type            = var.primary-instance-type
@@ -54,6 +55,7 @@ module "eks" {
   nodes-additional-security-groups = var.nodes-additional-security-groups
   enable-spot-instances            = var.enable-spot-instances
   spot-instance-types              = var.spot-instance-types
+  userdata-file                    = "path-to-userdata-file"
 
   tags = {              
     owner = "example@zoi.de"

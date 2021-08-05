@@ -6,12 +6,14 @@ variable "nodes-version" {}
 
 variable "primary-instance-type" {
   type = string
+  default = ""
 }
 variable "cluster-subnets-ids" {
   type    = list(string)
 }
 variable "primary-node-subnets-ids"{
   type = list(string)
+  default = []
 }
 variable "spot-node-subnets-ids"{
   type    = list(string)
@@ -22,13 +24,16 @@ variable "spot-instance-types" {
   default = []
 }
 variable "primary-nodes-count" {
-  default = "1"
+  type = string
+  default = "0"
 }
 variable "primary-max-nodes-count" {
+  type = string
   default = "5"
 }
 variable "primary-min-nodes-count" {
-  default = "1"
+  type = string
+  default = "0"
 }
 variable "eks-additional-security-groups" {
   type    = list(string)
@@ -51,4 +56,11 @@ variable "enable-spot-instances" {
   type    = bool
   default = false
 }
-   
+variable "enable-primary-nodegroup" {
+  type    = bool
+  default = false
+}
+variable "userdata-file" {
+  type = string
+  description  = "userdata file path"
+}  

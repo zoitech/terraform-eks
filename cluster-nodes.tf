@@ -1,4 +1,5 @@
 resource "aws_eks_node_group" "cluster_nodes" {
+  count              = var.enable-primary-nodegroup ? 1 : 0
   cluster_name       = aws_eks_cluster.cluster-masters.name
   node_group_name    = "${var.cluster-name}-nodes-${replace(var.primary-instance-type, ".", "_")}"
   node_role_arn      = aws_iam_role.nodes.arn
