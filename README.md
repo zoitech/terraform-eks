@@ -35,7 +35,7 @@ module "eks" {
   providers = {
     aws = aws
   }
-  source                           = "git::https://git.zoi.de/generic/tf-modules/tf-mod-aws-eks.git"
+  source                           = "git::https://dummy.git"
   region                           = var.region
   cluster-name                     = var.cluster-name
   eks-version                      = var.eks-version
