@@ -19,6 +19,10 @@ resource "aws_eks_node_group" "cluster_nodes" {
     min_size     = var.primary-min-nodes-count
   }
 
+  lifecycle {
+    ignore_changes = [scaling_config.0.desired_size]
+  }
+
   depends_on = [
     aws_iam_role_policy_attachment.AmazonEKSWorkerNodePolicy,
     aws_iam_role_policy_attachment.AmazonEKS_CNI_Policy,
