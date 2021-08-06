@@ -7,5 +7,6 @@ resource "aws_launch_template" "cluster-nodes-launch-template" {
     resource_type = "instance"
     tags = var.tags
   } 
+  user_data = filebase64(var.userdata-file)
 }
 
