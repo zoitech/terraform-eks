@@ -1,5 +1,6 @@
 resource "aws_eks_node_group" "spot_cluster_nodes" {
   count           = var.enable-spot-instances ? 1 : 0
+  
   cluster_name    = var.cluster-name
   node_group_name = "${var.cluster-name}-spot-ng"
   node_role_arn   = aws_iam_role.nodes.arn
