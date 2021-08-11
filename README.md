@@ -52,6 +52,7 @@ module "eks" {
   primary-max-nodes-count          = "1"
   primary-instance-type            = "t3.small"
   vpc-id                           = "" #required
+  enable-primary-nodegroup         = true
   cluster-subnets-ids              = [""] #required
   primary-node-subnets-ids         = [""] #required
   spot-node-subnets-ids            = [""]
