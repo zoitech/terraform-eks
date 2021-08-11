@@ -62,7 +62,8 @@ module "eks" {
   enable-spot-instances            = false
   spot-instance-types              = []
   enable-aws-auth                  = true
-  
+  userdata-file                    = "path-to-userdata-file"
+
   map-users = { 
     "arn:aws:iam::1034144444:user/user1" = ["group1", "group2"]
     "arn:aws:iam::${data.aws_caller_identity.current.id}:user/user2" = ["group1", "group2"]

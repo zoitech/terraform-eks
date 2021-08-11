@@ -4,7 +4,7 @@ FEATURE:
 
 ## [1.0.0]
 ENHANCEMENTS:
-* Upgraded terraform version to 0.13  [#4](https://git.zoi.de/generic/tf-modules/tf-mod-aws-eks/-/issues/4)
+* Upgraded terraform version to 0.13
 
 
 ## [0.2.2]
