@@ -34,6 +34,18 @@ This feature allows for the management of the aws-auth configmap for the eks clu
 
 *This needs to be set at cluster creation otherwise it will not work, you cannot manage the aws-auth file from terraform if the cluster was already created and AWS created the file.
 
+e.g of variables for aws-auth:
+
+map-roles = {
+  role1arn = ["group1", "system:masters"]
+  role2arn = ["group2", "group1"]
+}
+
+map-users {
+  user1arn = ["system:masters", "group1"]
+  user2arn = ["group2", "group3"]
+}
+
 ## Usage
 
 ```
@@ -41,43 +53,34 @@ module "eks" {
   providers = {
     aws = aws
   }
-  source                         = "git::https://git.zoi.de/generic/tf-modules/tf-mod-aws-eks.git?ref=1.0.1"
-
-  region                           = "eu-central-1"
-  cluster-name                     = "test-cluster"
-  eks-version                      = "1.20"
-  nodes-version                    = "1.20"
-  primary-nodes-count              = "1"
-  primary-min-nodes-count          = "1"
-  primary-max-nodes-count          = "1"
-  primary-instance-type            = "t3.small"
-  vpc-id                           = "" #required
-  enable-primary-nodegroup         = true
-  cluster-subnets-ids              = [""] #required
-  primary-node-subnets-ids         = [""] #required
-  spot-node-subnets-ids            = [""]
-  eks-additional-security-groups   = []
-  enable-private-access            = true
-  enable-public-access             = true
-  nodes-additional-security-groups = []
-  enable-spot-instances            = false
-  spot-instance-types              = []
-  enable-aws-auth                  = true
+  source                           = "git::https://dummy.git"
+  region                           = var.region
+  cluster-name                     = var.cluster-name
+  eks-version                      = var.eks-version
+  nodes-version                    = var.nodes-version
+  enable-primary-nodegroup         = var.enable-primary-nodegroup
+  primary-nodes-count              = var.primary-nodes-count 
+  primary-min-nodes-count          = var.primary-min-nodes-count
+  primary-max-nodes-count          = var.primary-max-nodes-count
+  primary-instance-type            = var.primary-instance-type
+  vpc-id                           = var.vpc-id
+  cluster-subnets-ids              = var.cluster-subnets-ids
+  primary-node-subnets-ids         = var.primary-node-subnets-ids
+  spot-node-subnets-ids            = var.spot-node-subnets-ids
+  eks-additional-security-groups   = var.eks-additional-security-groups
+  enable-private-access            = var.enable-private-access
+  enable-public-access             = var.enable-public-access
+  nodes-additional-security-groups = var.nodes-additional-security-groups
+  enable-spot-instances            = var.enable-spot-instances
+  spot-instance-types              = var.spot-instance-types
   userdata-file                    = "path-to-userdata-file"
-
-  map-users = { 
-    "arn:aws:iam::1034144444:user/user1" = ["group1", "group2"]
-    "arn:aws:iam::${data.aws_caller_identity.current.id}:user/user2" = ["group1", "group2"]
-    }
-
-  map-roles = {
-    aws_iam_role.example.arn = ["group1", "group2"]
-    "arn:aws:iam::1034144444:role/role2" = ["group1", "group2"]
-  }
+  map-users                        = var.map-users
+  map-roles                        = var.map-roles
 
   tags = {              
     owner = "example@zoi.de"
     environment = "test"
   }
 }
+
 ```

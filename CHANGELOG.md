@@ -1,4 +1,4 @@
-## [1.0.1]
+## [1.0.2]
 FEATURE:
 * Added support for aws-auth configmap management.(Please see README for more important information)
 
