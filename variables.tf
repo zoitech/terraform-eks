@@ -64,3 +64,6 @@ variable "userdata-file" {
   type = string
   description  = "userdata file path"
 }  
+variable "service_ipv4_cidr" {
+    
+}
