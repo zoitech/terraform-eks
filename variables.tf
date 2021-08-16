@@ -82,4 +82,5 @@ variable "enable-primary-nodegroup" {
 variable "userdata-file" {
   type = string
   description  = "userdata file path"
+  default = ""
 }  
