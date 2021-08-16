@@ -2,6 +2,10 @@
 FEATURE:
 * Added support for aws-auth configmap management.(Please see README for more important information)
 
+## [1.0.1]
+FEATURE:
+* Allow passing userdata to the launch template
+
 ## [1.0.0]
 ENHANCEMENTS:
 * Upgraded terraform version to 0.13
