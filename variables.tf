@@ -9,13 +9,13 @@ variable "primary-instance-type" {
   default = ""
 }
 variable "cluster-subnets-ids" {
-  type    = list(string)
+  type = list(string)
 }
-variable "primary-node-subnets-ids"{
+variable "primary-node-subnets-ids" {
   type = list(string)
   default = []
 }
-variable "spot-node-subnets-ids"{
+variable "spot-node-subnets-ids" {
   type    = list(string)
   default = []
 }
@@ -55,6 +55,25 @@ variable "tags" {
 variable "enable-spot-instances" {
   type    = bool
   default = false
+}
+
+#aws-auth  
+variable "enable-aws-auth" {
+  description = "Needs to be enabled at Cluster creation and allows for the management of the aws-auth configmap for the EKS cluster."
+  type        = bool
+  default     = false
+}
+
+variable "map-roles" {
+  description = "Additional IAM roles to add to the aws-auth configmap. See readme for example format."
+  type        = map(list(string))
+  default     = {}
+}
+
+variable "map-users" {
+  description = "Additional IAM users to add to the aws-auth configmap. See readme for example format."
+  type        = map(list(string))
+  default     = {}
 }
 variable "enable-primary-nodegroup" {
   type    = bool

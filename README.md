@@ -1,6 +1,6 @@
 # EKS Setup Module Terraform
 
-**Version 1.0.0** - [Change Log](CHANGELOG.md)
+**Version 1.0.2** - [Change Log](CHANGELOG.md)
 
 Terraform code to set up an AWS EKS cluster.
 
@@ -27,6 +27,24 @@ Prohibited in EKS node group config but need to be added to Launch Template:
 - AMI type, if custom AMI is used.
 - Disk size under Node Group compute configuration on Set compute and scaling configuration page.
 - You can't specify source security groups that are allowed remote access when using a launch template.
+
+## aws-auth configmap management
+This feature allows for the management of the aws-auth configmap for the eks cluster, the variable to set it is:
+- enable-aws-auth = true
+
+*This needs to be set at cluster creation otherwise it will not work, you cannot manage the aws-auth file from terraform if the cluster was already created and AWS created the file.
+
+e.g of variables for aws-auth:
+
+map-roles = {
+  role1arn = ["group1", "system:masters"]
+  role2arn = ["group2", "group1"]
+}
+
+map-users {
+  user1arn = ["system:masters", "group1"]
+  user2arn = ["group2", "group3"]
+}
 
 ## Usage
 
@@ -56,10 +74,13 @@ module "eks" {
   enable-spot-instances            = var.enable-spot-instances
   spot-instance-types              = var.spot-instance-types
   userdata-file                    = "path-to-userdata-file"
+  map-users                        = var.map-users
+  map-roles                        = var.map-roles
 
   tags = {              
     owner = "example@zoi.de"
     environment = "test"
   }
 }
+
 ```

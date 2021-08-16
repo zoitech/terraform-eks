@@ -1,5 +1,6 @@
 resource "aws_eks_node_group" "cluster_nodes" {
   count              = var.enable-primary-nodegroup ? 1 : 0
+  
   cluster_name       = aws_eks_cluster.cluster-masters.name
   node_group_name    = "${var.cluster-name}-nodes-${replace(var.primary-instance-type, ".", "_")}"
   node_role_arn      = aws_iam_role.nodes.arn
@@ -9,7 +10,7 @@ resource "aws_eks_node_group" "cluster_nodes" {
   tags               = var.tags
 
   launch_template {
-    id = aws_launch_template.cluster-nodes-launch-template.id
+    id      = aws_launch_template.cluster-nodes-launch-template.id
     version = aws_launch_template.cluster-nodes-launch-template.latest_version
   }
 
@@ -29,7 +30,8 @@ resource "aws_eks_node_group" "cluster_nodes" {
     aws_iam_role_policy_attachment.AmazonEC2ContainerRegistryReadOnly,
     aws_eks_cluster.cluster-masters,
     aws_launch_template.cluster-nodes-launch-template,
+    kubernetes_config_map.aws_auth
   ]
 }
 
-  
+
