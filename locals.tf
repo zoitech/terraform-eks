@@ -23,4 +23,6 @@ locals {
       groups   = ["system:bootstrappers", "system:nodes"]
     }
   ]
+
+  userdata-file = var.userdata-file != "" ? var.userdata-file : "${path.module}/userdata.txt"
 }
