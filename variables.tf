@@ -84,3 +84,9 @@ variable "userdata-file" {
   description  = "userdata file path"
   default = ""
 }  
+
+variable "create_eks_addons" {
+  type        = bool
+  description = "Enable EKS managed addons creation. Set to true in new cluster, in previous deployed cluster please analyse"
+  default     = true
+}
