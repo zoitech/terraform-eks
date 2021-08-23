@@ -76,7 +76,8 @@ module "eks" {
   userdata-file                    = "path-to-userdata-file"
   map-users                        = var.map-users
   map-roles                        = var.map-roles
-
+  create_eks_addons                = var.create_eks_addons
+  
   tags = {              
     owner = "example@zoi.de"
     environment = "test"
