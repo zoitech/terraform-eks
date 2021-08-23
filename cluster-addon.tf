@@ -6,7 +6,7 @@ resource "aws_eks_addon" "kube_proxy" {
     resolve_conflicts = "OVERWRITE"
     
     depends_on = [
-      aws_eks_node_group.cluster_nodes
+      aws_eks_cluster.cluster-masters
     ]
 
 }
@@ -18,7 +18,7 @@ resource "aws_eks_addon" "core_dns" {
     resolve_conflicts = "OVERWRITE"
 
     depends_on = [
-      aws_eks_node_group.cluster_nodes
+      aws_eks_cluster.cluster-masters
     ]
 }
 
@@ -30,6 +30,6 @@ resource "aws_eks_addon" "vpc-cni" {
     resolve_conflicts = "OVERWRITE"
 
     depends_on = [
-      aws_eks_node_group.cluster_nodes
+      aws_eks_cluster.cluster-masters
     ]
 }
