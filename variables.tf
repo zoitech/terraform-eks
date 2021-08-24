@@ -91,12 +91,6 @@ variable "create_eks_addons" {
   default     = true
 }
 
-variable "create_eks_addons" {
-  type        = bool
-  description = "Enable EKS managed addons creation."
-  default     = true
-}
-
 variable "eks_addon_version_kube_proxy" {
   type        = string
   description = "Kube proxy managed EKS addon version."
