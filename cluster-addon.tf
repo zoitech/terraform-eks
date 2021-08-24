@@ -18,7 +18,7 @@ resource "aws_eks_addon" "core_dns" {
     resolve_conflicts = "OVERWRITE"
 
     depends_on = [
-      aws_eks_cluster.cluster-masters
+      aws_eks_node_group.cluster_nodes
     ]
 }
 
