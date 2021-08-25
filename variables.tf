@@ -84,7 +84,9 @@ variable "userdata-file" {
   description  = "userdata file path"
   default = ""
 }  
-
+variable "service_ipv4_cidr" {
+    
+}
 variable "create_eks_addons" {
   type        = bool
   description = "Enable EKS managed addons creation."
