@@ -87,3 +87,8 @@ variable "userdata-file" {
 variable "service_ipv4_cidr" {
     
 }
+variable "enable_iam" {
+  type        = bool
+  description = "Deploy IAM Roles in cluster creation."
+  default     = true
+}
