@@ -18,7 +18,7 @@ locals {
 
   configmap_roles = [
     {
-      rolearn  = aws_iam_role.nodes[0].arn
+      rolearn  = var.enable_iam ? aws_iam_role.nodes[0].arn : var.aws-iam-role-eks-nodes-arn
       username = "system:node:{{EC2PrivateDNSName}}"
       groups   = ["system:bootstrappers", "system:nodes"]
     }

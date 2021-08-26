@@ -92,3 +92,12 @@ variable "enable_iam" {
   description = "Deploy IAM Roles in cluster creation."
   default     = true
 }
+variable "aws-iam-role-eks-master-arn" {
+  type = string
+  default = ""
+}
+variable "aws-iam-role-eks-nodes-arn" {
+  type = string
+  default = ""
+  
+}

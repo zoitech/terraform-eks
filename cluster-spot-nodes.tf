@@ -3,7 +3,7 @@ resource "aws_eks_node_group" "spot_cluster_nodes" {
   
   cluster_name    = var.cluster-name
   node_group_name = "${var.cluster-name}-spot-ng"
-  node_role_arn   = aws_iam_role.nodes[0].arn
+  node_role_arn   = var.enable_iam ? aws_iam_role.nodes[0].arn : var.aws-iam-role-eks-nodes-arn
   subnet_ids      = var.spot-node-subnets-ids
   version         = var.nodes-version
   capacity_type   = "SPOT"

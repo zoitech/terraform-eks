@@ -3,7 +3,7 @@ resource "aws_eks_node_group" "cluster_nodes" {
   
   cluster_name       = aws_eks_cluster.cluster-masters.name
   node_group_name    = "${var.cluster-name}-nodes-${replace(var.primary-instance-type, ".", "_")}"
-  node_role_arn      = aws_iam_role.nodes[0].arn
+  node_role_arn      = var.enable_iam ? aws_iam_role.nodes[0].arn : var.aws-iam-role-eks-nodes-arn
   subnet_ids         = var.primary-node-subnets-ids
   version            = var.nodes-version
   instance_types     = [var.primary-instance-type]
