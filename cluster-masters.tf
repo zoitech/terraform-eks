@@ -3,7 +3,7 @@
 resource "aws_eks_cluster" "cluster-masters" {
   name                      = var.cluster-name
   version                   = var.eks-version
-  role_arn                  = aws_iam_role.eks-masters.arn
+  role_arn                  = aws_iam_role.eks-masters[0].arn
   enabled_cluster_log_types = ["api", "audit", "authenticator", "controllerManager", "scheduler"]
 
   vpc_config {

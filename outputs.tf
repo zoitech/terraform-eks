@@ -13,5 +13,5 @@ output "cluster_primary_security_group_id" {
 
 output "eks_nodes_role" {
   description = "IAM role used by EKS node group."
-  value       = aws_iam_role.nodes.id
+  value       = aws_iam_role.nodes[0].id
 }
