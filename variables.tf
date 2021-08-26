@@ -84,6 +84,7 @@ variable "userdata-file" {
   description  = "userdata file path"
   default = ""
 }  
+
 variable "service_ipv4_cidr" {
     
 }
