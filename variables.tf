@@ -108,3 +108,17 @@ variable "eks_addon_version_vpc_cni" {
   type        = string
   description = "VPC-CNI managed EKS addon version."
 }
+
+variable "enable_iam" {
+  type        = bool
+  description = "Deploy IAM Roles in cluster creation."
+  default     = true
+}
+variable "eks-masters-iam-role" {
+  type = string
+  default = ""
+}
+variable "eks-nodes-iam-role" {
+  type = string
+  default = ""
+}
