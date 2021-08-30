@@ -76,7 +76,11 @@ module "eks" {
   userdata-file                    = "path-to-userdata-file"
   map-users                        = var.map-users
   map-roles                        = var.map-roles
-
+  create_eks_addons                = var.create_eks_addons
+  eks_addon_version_vpc_cni        = var.eks_addon_version_vpc_cni
+  eks_addon_version_core_dns       = var.eks_addon_version_core_dns
+  eks_addon_version_kube_proxy     = var.eks_addon_version_kube_proxy
+  
   tags = {              
     owner = "example@zoi.de"
     environment = "test"

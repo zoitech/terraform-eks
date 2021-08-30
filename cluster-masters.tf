@@ -3,7 +3,7 @@
 resource "aws_eks_cluster" "cluster-masters" {
   name                      = var.cluster-name
   version                   = var.eks-version
-  role_arn                  = aws_iam_role.eks-masters.arn
+  role_arn                  = var.enable_iam ? aws_iam_role.eks-masters[0].arn : var.eks-masters-iam-role
   enabled_cluster_log_types = ["api", "audit", "authenticator", "controllerManager", "scheduler"]
 
   vpc_config {
@@ -12,7 +12,9 @@ resource "aws_eks_cluster" "cluster-masters" {
     endpoint_private_access = var.enable-private-access
     endpoint_public_access  = var.enable-public-access
   }
-
+  kubernetes_network_config {
+    service_ipv4_cidr = var.service_ipv4_cidr
+  }
   tags = var.tags
 
   depends_on = [

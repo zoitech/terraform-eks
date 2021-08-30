@@ -18,9 +18,11 @@ locals {
 
   configmap_roles = [
     {
-      rolearn  = aws_iam_role.nodes.arn
+      rolearn  = var.enable_iam ? aws_iam_role.nodes[0].arn : var.eks-nodes-iam-role
       username = "system:node:{{EC2PrivateDNSName}}"
       groups   = ["system:bootstrappers", "system:nodes"]
     }
   ]
+
+  userdata-file = var.userdata-file != "" ? var.userdata-file : "${path.module}/userdata.txt"
 }

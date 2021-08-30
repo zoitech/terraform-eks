@@ -82,4 +82,43 @@ variable "enable-primary-nodegroup" {
 variable "userdata-file" {
   type = string
   description  = "userdata file path"
+  default = ""
 }  
+
+variable "service_ipv4_cidr" {
+    
+}
+variable "create_eks_addons" {
+  type        = bool
+  description = "Enable EKS managed addons creation."
+  default     = true
+}
+
+variable "eks_addon_version_kube_proxy" {
+  type        = string
+  description = "Kube proxy managed EKS addon version."
+}
+
+variable "eks_addon_version_core_dns" {
+  type        = string
+  description = "Core DNS managed EKS addon version."
+}
+
+variable "eks_addon_version_vpc_cni" {
+  type        = string
+  description = "VPC-CNI managed EKS addon version."
+}
+
+variable "enable_iam" {
+  type        = bool
+  description = "Deploy IAM Roles in cluster creation."
+  default     = true
+}
+variable "eks-masters-iam-role" {
+  type = string
+  default = ""
+}
+variable "eks-nodes-iam-role" {
+  type = string
+  default = ""
+}
