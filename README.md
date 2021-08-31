@@ -57,6 +57,7 @@ If you like to create the IAM Roles outside of the deployment, then you should s
 and pass the ARN of the IAM Roles for the Master and Nodes in the variables
 
 **eks-masters-iam-role**
+
 **eks-nodes-iam-role**
 
 
@@ -77,11 +78,11 @@ If you don't want to managed the addon in the module, please set
 
 ## Network configuration
 
-The Kubernetes network configuration for the cluster, the CIDR block to assign Kubernetes service IP addresses, within one of the following private IP address blocks: 10.0.0.0/8, 172.16.0.0.0/12, or 192.168.0.0/16.
+In the Kubernetes network configuration for the cluster, you define the CIDR block to assign Kubernetes service IP addresses, within one of the following private IP address blocks: 10.0.0.0/8, 172.16.0.0.0/12, or 192.168.0.0/16.
 
 The CIDR chosen should be pass in the variable, 
 
-**service_ipv4_cidr**
+**service_ipv4_cidr** = "192.168.0.0/16"
 
 ## Usage
 
