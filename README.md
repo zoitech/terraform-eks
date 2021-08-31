@@ -56,9 +56,9 @@ If you like to create the IAM Roles outside of the deployment, then you should s
 
 and pass the ARN of the IAM Roles for the Master and Nodes in the variables
 
-**eks-masters-iam-role**
+**eks-masters-iam-role** = "arn:aws:iam::123456789:role/role_eks_cluster_test-cluster"
 
-**eks-nodes-iam-role**
+**eks-nodes-iam-role** = "arn:aws:iam::987654321:role/role_eks_nodes_test-cluster"
 
 
 ## Cluster Addons
