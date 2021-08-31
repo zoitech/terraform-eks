@@ -46,6 +46,40 @@ map-users {
   user2arn = ["group2", "group3"]
 }
 
+
+## IAM Roles
+
+By default the necessary IAM Roles are created in the cluster setup.
+If you like to create the IAM Roles outside of the deployment, then you should set  
+
+enable_iam = false
+
+and pass the ARN of the IAM Roles for the Master and Nodes in the variables
+
+eks-masters-iam-role
+eks-nodes-iam-role
+
+
+## Cluster Addons
+
+The cluster addons are installed by default, and the default version of each modules is the follow,
+
+  eks_addon_version_vpc_cni        = "v1.9.0-eksbuild.1"
+  eks_addon_version_core_dns       = "v1.8.3-eksbuild.1"
+  eks_addon_version_kube_proxy     = "v1.19.6-eksbuild.2"
+
+If you don't want to managed the addon in the module, please set
+
+create_eks_addons = "false"
+
+
+## Network configuration
+
+The Kubernetes network configuration for the cluster, the CIDR block to assign Kubernetes service IP addresses, within one of the following private IP address blocks: 10.0.0.0/8, 172.16.0.0.0/12, or 192.168.0.0/16.
+The CIDR chosen should be pass in the variable, 
+
+service_ipv4_cidr 
+
 ## Usage
 
 ```
@@ -80,6 +114,11 @@ module "eks" {
   eks_addon_version_vpc_cni        = var.eks_addon_version_vpc_cni
   eks_addon_version_core_dns       = var.eks_addon_version_core_dns
   eks_addon_version_kube_proxy     = var.eks_addon_version_kube_proxy
+  enable_iam                       = var.enable_iam
+  eks-masters-iam-role             = var.eks-masters-iam-role
+  eks-nodes-iam-role               = var.eks-nodes-iam-role
+  service_ipv4_cidr                = var.service_ipv4_cidr
+
   
   tags = {              
     owner = "example@zoi.de"
