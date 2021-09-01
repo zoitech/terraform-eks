@@ -63,7 +63,9 @@ and pass the ARN of the IAM Roles for the Master and Nodes in the variables
 
 ## Cluster Addons
 
-The cluster addons are installed by default, and the default version of each modules is the follow,
+The cluster addons are installed by default.
+
+Is possible to define what version of each module to deploy has shown in the example below,
 
 ```
   eks_addon_version_vpc_cni        = "v1.9.0-eksbuild.1"
