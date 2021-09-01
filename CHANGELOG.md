@@ -1,3 +1,19 @@
+## [1.0.7]
+FEATURE:   
+* Update documentation and Changelog
+
+## [1.0.6]
+FEATURE:   
+* Make IAM resources optional
+
+## [1.0.5]
+FEATURE:   
+* Add Terraform Managed AddOns
+
+## [1.0.4]
+FEATURE:   
+* Add support for service IPs
+
 ## [1.0.2]
 FEATURE:
 * Added support for aws-auth configmap management.(Please see README for more important information)

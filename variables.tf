@@ -97,16 +97,19 @@ variable "create_eks_addons" {
 variable "eks_addon_version_kube_proxy" {
   type        = string
   description = "Kube proxy managed EKS addon version."
+  default = ""
 }
 
 variable "eks_addon_version_core_dns" {
   type        = string
   description = "Core DNS managed EKS addon version."
+  default = ""
 }
 
 variable "eks_addon_version_vpc_cni" {
   type        = string
   description = "VPC-CNI managed EKS addon version."
+  default = ""
 }
 
 variable "enable_iam" {
