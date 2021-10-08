@@ -1,3 +1,8 @@
+## [2.0.0]
+ENHANCEMENTS:
+* Upgraded terraform version to 0.14
+[#9](https://generic/tf-modules/tf-mod-aws-eks/-/issues/9)
+
 ## [1.0.7]
 FEATURE:   
 * Update documentation and Changelog
@@ -25,7 +30,6 @@ FEATURE:
 ## [1.0.0]
 ENHANCEMENTS:
 * Upgraded terraform version to 0.13
-
 
 ## [0.2.2]
 ENHANCEMENTS:
