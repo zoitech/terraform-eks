@@ -1,3 +1,8 @@
+## [2.0.1]
+FEATURE:
+* Variables for spot instance scaling
+
+
 ## [2.0.0]
 ENHANCEMENTS:
 * Upgraded terraform version to 0.14
