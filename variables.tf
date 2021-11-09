@@ -57,6 +57,19 @@ variable "enable-spot-instances" {
   default = false
 }
 
+variable "spot-nodes-count" {
+  description = "Desired size os spot instance node group"
+  default     = 1
+}
+variable "spot-max-nodes-count" {
+  description = "Desired max size os spot instance node group"
+  default     = 5
+  }
+variable "spot-min-nodes-count" {
+  description = "Desired minimum size os spot instance node group"
+  default     = 1
+}
+
 #aws-auth  
 variable "enable-aws-auth" {
   description = "Needs to be enabled at Cluster creation and allows for the management of the aws-auth configmap for the EKS cluster."
