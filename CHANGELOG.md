@@ -30,7 +30,6 @@ FEATURE:
 ENHANCEMENTS:
 * Upgraded terraform version to 0.13
 
-
 ## [0.2.2]
 ENHANCEMENTS:
 * Added support for spot instance node group.

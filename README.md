@@ -113,6 +113,9 @@ module "eks" {
   nodes-additional-security-groups = var.nodes-additional-security-groups
   enable-spot-instances            = var.enable-spot-instances
   spot-instance-types              = var.spot-instance-types
+  spot-nodes-count                 = var.spot-nodes-count
+  spot-max-nodes-count             = var.spot-max-nodes-count
+  spot-min-nodes-count             = var.spot-min-nodes-count
   userdata-file                    = "path-to-userdata-file"
   map-users                        = var.map-users
   map-roles                        = var.map-roles
@@ -125,7 +128,6 @@ module "eks" {
   eks-nodes-iam-role               = var.eks-nodes-iam-role
   service_ipv4_cidr                = var.service_ipv4_cidr
 
-  
   tags = {              
     owner = "example@zoi.de"
     environment = "test"
