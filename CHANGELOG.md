@@ -1,3 +1,7 @@
+## [1.0.8]
+FEATURE:   
+* Change cluster-addon resolve_conflicts to "NONE"
+
 ## [1.0.7]
 FEATURE:   
 * Update documentation and Changelog
