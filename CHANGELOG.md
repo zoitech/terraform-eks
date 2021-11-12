@@ -1,7 +1,10 @@
+## [2.0.2]
+FEATURE:   
+* Change cluster-addon resolve_conflicts to "NONE"
+
 ## [2.0.1]
 FEATURE:
 * Variables for spot instance scaling
-
 
 ## [2.0.0]
 ENHANCEMENTS:
