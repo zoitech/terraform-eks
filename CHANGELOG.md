@@ -1,3 +1,7 @@
+## [2.0.2]
+FEATURE:   
+* Change cluster-addon resolve_conflicts to "NONE"
+
 ## [2.0.1]
 FEATURE:
 * Variables for spot instance scaling
@@ -6,10 +10,6 @@ FEATURE:
 ENHANCEMENTS:
 * Upgraded terraform version to 0.14
 [#9](https://generic/tf-modules/tf-mod-aws-eks/-/issues/9)
-
-## [1.0.8]
-FEATURE:   
-* Change cluster-addon resolve_conflicts to "NONE"
 
 ## [1.0.7]
 FEATURE:   
