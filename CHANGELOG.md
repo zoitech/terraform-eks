@@ -2,7 +2,7 @@
 
 ENHANCEMENTS:
 * Upgraded terraform version to 0.15
-[#10](https://generic/tf-modules/tf-mod-aws-eks/-/issues/10)
+[#11](https://generic/tf-modules/tf-mod-aws-eks/-/issues/11)
 
 BACKWARDS INCOMPATIBILITIES / NOTES:
 * Terraform version 0.15.x
