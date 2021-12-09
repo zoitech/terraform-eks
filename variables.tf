@@ -125,6 +125,12 @@ variable "eks_addon_version_vpc_cni" {
   default = ""
 }
 
+variable "enable_coredns_addon" {
+  type        = bool
+  description = "Enable CoreDNS AddOn"
+  default = false
+}
+
 variable "enable_iam" {
   type        = bool
   description = "Deploy IAM Roles in cluster creation."

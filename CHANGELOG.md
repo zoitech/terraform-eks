@@ -1,3 +1,7 @@
+## [2.1.2]
+
+Make CoreDNS optional
+
 ## [2.1.1]
 
 Hotfix: Remove AWS Provider.
