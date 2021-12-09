@@ -12,7 +12,7 @@ resource "aws_eks_addon" "kube_proxy" {
 
 }
 resource "aws_eks_addon" "core_dns" {
-    count = var.create_eks_addons && var.enable-primary-nodegroup ? 1 : 0
+    count = var.create_eks_addons && var.enable-primary-nodegroup && var.enable_coredns_addon ? 1 : 0
 
     cluster_name = var.cluster-name
     addon_name = "coredns"
