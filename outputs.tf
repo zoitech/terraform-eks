@@ -8,7 +8,7 @@ output "cluster-arn" {
 
 output "cluster_primary_security_group_id" {
   description = "The cluster primary security group ID created by the EKS cluster on 1.14 or later. Referred to as 'Cluster security group' in the EKS console."
-  value       = element(concat(aws_eks_cluster.cluster-masters[*].vpc_config[0].cluster_security_group_id, list("")), 0)
+  value       = aws_eks_cluster.cluster-masters.vpc_config[0].cluster_security_group_id
 }
 
 output "eks_nodes_role" {

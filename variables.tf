@@ -57,6 +57,19 @@ variable "enable-spot-instances" {
   default = false
 }
 
+variable "spot-nodes-count" {
+  description = "Desired size os spot instance node group"
+  default     = 1
+}
+variable "spot-max-nodes-count" {
+  description = "Desired max size os spot instance node group"
+  default     = 5
+  }
+variable "spot-min-nodes-count" {
+  description = "Desired minimum size os spot instance node group"
+  default     = 1
+}
+
 #aws-auth  
 variable "enable-aws-auth" {
   description = "Needs to be enabled at Cluster creation and allows for the management of the aws-auth configmap for the EKS cluster."
@@ -97,16 +110,25 @@ variable "create_eks_addons" {
 variable "eks_addon_version_kube_proxy" {
   type        = string
   description = "Kube proxy managed EKS addon version."
+  default = ""
 }
 
 variable "eks_addon_version_core_dns" {
   type        = string
   description = "Core DNS managed EKS addon version."
+  default = ""
 }
 
 variable "eks_addon_version_vpc_cni" {
   type        = string
   description = "VPC-CNI managed EKS addon version."
+  default = ""
+}
+
+variable "enable_coredns_addon" {
+  type        = bool
+  description = "Enable CoreDNS AddOn"
+  default = false
 }
 
 variable "enable_iam" {

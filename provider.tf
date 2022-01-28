@@ -8,7 +8,3 @@ provider "kubernetes" {
     command     = "aws"
   }
 }
-
-provider "aws" {
-  region = var.region
-}
