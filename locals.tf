@@ -11,7 +11,7 @@ locals {
   map-users = [
     for userarn, groups in var.map-users : {
       userarn  = userarn
-      username = "${split("/", userarn)[1]}{{SessionName}}"
+      username = "${split("/", userarn)[1]}"
       groups   = groups
     }
   ]
