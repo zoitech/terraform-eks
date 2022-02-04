@@ -15,3 +15,7 @@ output "eks_nodes_role" {
   description = "IAM role used by EKS node group."
   value       = var.enable_iam ? aws_iam_role.nodes[0].arn : var.eks-nodes-iam-role
 }
+
+output "eks_nodes_launch_template_id" {
+  value = aws_launch_template.cluster-nodes-launch-template.id
+}
