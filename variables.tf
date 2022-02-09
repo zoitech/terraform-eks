@@ -2,7 +2,10 @@ variable "region" {}
 variable "vpc-id" {}
 variable "cluster-name" {}
 variable "eks-version" {}
-variable "nodes-version" {}
+variable "nodes-version" {
+  type = string
+  default = ""
+}
 
 variable "primary-instance-type" {
   type = string
