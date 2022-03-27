@@ -19,3 +19,11 @@ output "eks_nodes_role" {
 output "eks_nodes_launch_template_id" {
   value = aws_launch_template.cluster-nodes-launch-template.id
 }
+
+output "eks_endpoint" {
+  value = aws_eks_cluster.cluster-masters.endpoint
+}
+
+output "eks_ca" {
+  value = aws_eks_cluster.cluster-masters.certificate_authority.0.data
+}
