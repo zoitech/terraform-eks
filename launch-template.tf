@@ -9,4 +9,3 @@ resource "aws_launch_template" "cluster-nodes-launch-template" {
     tags          = var.tags
   }
 }
-

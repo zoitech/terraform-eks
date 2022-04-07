@@ -45,5 +45,3 @@ resource "aws_security_group_rule" "Group-eks-nodes-self" {
   to_port           = "0"
   type              = "ingress"
 }
-
-
