@@ -1,7 +1,7 @@
 locals {
   map-roles = [
     for rolearn, groups in var.map-roles :
-   {
+    {
       rolearn  = rolearn
       username = "${split("/", rolearn)[1]}{{SessionName}}"
       groups   = groups
