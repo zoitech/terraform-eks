@@ -1,5 +1,3 @@
-# EKS Cluster
-
 resource "aws_eks_cluster" "cluster-masters" {
   name                      = var.cluster-name
   version                   = var.eks-version
@@ -12,9 +10,11 @@ resource "aws_eks_cluster" "cluster-masters" {
     endpoint_private_access = var.enable-private-access
     endpoint_public_access  = var.enable-public-access
   }
+
   kubernetes_network_config {
     service_ipv4_cidr = var.service_ipv4_cidr
   }
+
   tags = var.tags
 
   depends_on = [

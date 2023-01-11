@@ -1,13 +1,13 @@
 resource "aws_eks_node_group" "cluster_nodes" {
-  count              = var.enable-primary-nodegroup ? 1 : 0
-  
-  cluster_name       = aws_eks_cluster.cluster-masters.name
-  node_group_name    = "${var.cluster-name}-nodes-${replace(var.primary-instance-type, ".", "_")}"
-  node_role_arn      = var.enable_iam ? aws_iam_role.nodes[0].arn : var.eks-nodes-iam-role
-  subnet_ids         = var.primary-node-subnets-ids
-  version            = var.nodes-version
-  instance_types     = [var.primary-instance-type]
-  tags               = var.tags
+  count = var.enable-primary-nodegroup ? 1 : 0
+
+  cluster_name    = aws_eks_cluster.cluster-masters.name
+  node_group_name = "${var.cluster-name}-nodes-${replace(var.primary-instance-type, ".", "_")}"
+  node_role_arn   = var.enable_iam ? aws_iam_role.nodes[0].arn : var.eks-nodes-iam-role
+  subnet_ids      = var.primary-node-subnets-ids
+  version         = var.nodes-version
+  instance_types  = [var.primary-instance-type]
+  tags            = var.tags
 
   launch_template {
     id      = aws_launch_template.cluster-nodes-launch-template.id
@@ -31,8 +31,7 @@ resource "aws_eks_node_group" "cluster_nodes" {
     aws_eks_cluster.cluster-masters,
     aws_launch_template.cluster-nodes-launch-template,
     kubernetes_config_map.aws_auth,
-    aws_eks_addon.kube_proxy, aws_eks_addon.vpc-cni
+    aws_eks_addon.kube_proxy,
+    aws_eks_addon.vpc-cni
   ]
 }
-
-
