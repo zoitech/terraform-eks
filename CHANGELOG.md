@@ -1,4 +1,4 @@
-## [2.1.3]
+## [2.1.10]
 
 FEATURE:
 * Add EBS CSI EKS add-on, this is necessary for clusters with a version >= 1.23
