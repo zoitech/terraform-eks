@@ -143,28 +143,64 @@ variable "create_eks_addons" {
   default     = true
 }
 
+variable "create_eks_addons" {
+  type        = bool
+  description = "Enable EKS managed addons creation."
+  default     = true
+}
+
 variable "eks_addon_version_kube_proxy" {
   type        = string
   description = "Kube proxy managed EKS addon version."
-  default     = ""
+  default = ""
+}
+
+variable "eks_addon_resolve_conflicts_kube_proxy" {
+  type        = string
+  description = "Define how to resolve parameter value conflicts when migrating an existing add-on to an Amazon EKS add-on or when applying version updates to the add-on. Valid values are NONE, OVERWRITE and PRESERVE"
+  default = "NONE"
 }
 
 variable "eks_addon_version_core_dns" {
   type        = string
   description = "Core DNS managed EKS addon version."
-  default     = ""
+  default = ""
+}
+
+variable "eks_addon_resolve_conflicts_core_dns" {
+  type        = string
+  description = "Define how to resolve parameter value conflicts when migrating an existing add-on to an Amazon EKS add-on or when applying version updates to the add-on. Valid values are NONE, OVERWRITE and PRESERVE"
+  default = "NONE"
 }
 
 variable "eks_addon_version_vpc_cni" {
   type        = string
   description = "VPC-CNI managed EKS addon version."
-  default     = ""
+  default = ""
+}
+
+variable "eks_addon_resolve_conflicts_vpc_cni" {
+  type        = string
+  description = "Define how to resolve parameter value conflicts when migrating an existing add-on to an Amazon EKS add-on or when applying version updates to the add-on. Valid values are NONE, OVERWRITE and PRESERVE."
+  default = "NONE"
 }
 
 variable "enable_coredns_addon" {
   type        = bool
   description = "Enable CoreDNS AddOn"
-  default     = false
+  default = false
+}
+
+variable "eks_addon_version_ebs_csi" {
+  type        = string
+  description = "EBS-CSI managed EKS addon version."
+  default = ""
+}
+
+variable "eks_addon_resolve_conflicts_ebs_csi" {
+  type        = string
+  description = "Define how to resolve parameter value conflicts when migrating an existing add-on to an Amazon EKS add-on or when applying version updates to the add-on. Valid values are NONE, OVERWRITE and PRESERVE"
+  default = "NONE"
 }
 
 variable "enable_iam" {
@@ -182,3 +218,8 @@ variable "eks-nodes-iam-role" {
   type    = string
   default = ""
 }
+
+eks_addon_version_kube_proxy = "v1.23.8-eksbuild.2"
+eks_addon_version_core_dns   = "v1.8.7-eksbuild.3"
+eks_addon_version_vpc_cni    = "v1.12.0-eksbuild.1"
+eks_addon_version_ebs_csi    = "v1.14.0-eksbuild.1"
