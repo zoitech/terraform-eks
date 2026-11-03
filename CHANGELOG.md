@@ -5,7 +5,7 @@
 BREAKING CHANGES:
 
 * Terraform version 1.4.x or newer is required (`terraform_data`, `optional()` object attributes, `replace_triggered_by`).
-* Provider requirements: `hashicorp/aws ~> 6.0` and `hashicorp/kubernetes ~> 2.0`.
+* Provider requirements: `hashicorp/aws ~> 6.0` and `hashicorp/kubernetes ~> 3.0`.
 * **Renamed variables:**
   * `eks-version` -> `master-nodes-k8s-version`
   * `nodes-version` -> `worker-nodes-k8s-version`
