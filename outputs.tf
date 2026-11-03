@@ -41,3 +41,8 @@ output "secondary_oidc_provider_url" {
   value       = try(aws_iam_openid_connect_provider.eks-oidc[0].url, null)
   description = "URL of the secondary OIDC provider that is created by enabling var.enable-oidc-provider. Used for IRSA (IAM Roles for Service Accounts) and EBS CSI."
 }
+
+output "secondary_oidc_provider_arn" {
+  value       = try(aws_iam_openid_connect_provider.eks-oidc[0].arn, null)
+  description = "ARN of the secondary OIDC provider that is created by enabling var.enable-oidc-provider. Used for IRSA (IAM Roles for Service Accounts) and EBS CSI."
+}

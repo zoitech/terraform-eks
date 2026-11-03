@@ -46,7 +46,7 @@ ADDED:
 * `enabled_cluster_log_types` - Configurable control plane log types (defaults to all types, as before).
 * `aws_auth_labels` - Additional labels for the `aws-auth` ConfigMap.
 * Input validation for `eks_addon_resolve_conflicts_kube_proxy` (`NONE`, `OVERWRITE`, `PRESERVE`).
-* Outputs: `cluster_name`, `cluster_endpoint`, `cluster_certificate_authority_data`, `eks_nodes_role_name`, `secondary_oidc_provider_url`.
+* Outputs: `cluster_name`, `cluster_endpoint`, `cluster_certificate_authority_data`, `eks_nodes_role_name`, `secondary_oidc_provider_url`,` secondary_oidc_provider_arn`.
 
 CHANGES:
 

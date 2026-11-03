@@ -425,6 +425,7 @@ No modules.
 | <a name="output_cluster_primary_security_group_id"></a> [cluster\_primary\_security\_group\_id](#output\_cluster\_primary\_security\_group\_id) | The cluster primary security group ID created by the EKS cluster on 1.14 or later. Referred to as 'Cluster security group' in the EKS console. |
 | <a name="output_eks_nodes_role"></a> [eks\_nodes\_role](#output\_eks\_nodes\_role) | IAM role used by EKS node group. |
 | <a name="output_eks_nodes_role_name"></a> [eks\_nodes\_role\_name](#output\_eks\_nodes\_role\_name) | IAM role used by EKS node group. |
-| <a name="output_secondary_oidc_provider_url"></a> [secondary\_oidc\_provider\_url](#output\_secondary\_oidc\_provider\_url) | Secondary OIDC provider issuer that is created by the cluster |
+| <a name="output_secondary_oidc_provider_arn"></a> [secondary\_oidc\_provider\_arn](#output\_secondary\_oidc\_provider\_arn) | ARN of the secondary OIDC provider that is created by enabling var.enable-oidc-provider. Used for IRSA (IAM Roles for Service Accounts) and EBS CSI. |
+| <a name="output_secondary_oidc_provider_url"></a> [secondary\_oidc\_provider\_url](#output\_secondary\_oidc\_provider\_url) | URL of the secondary OIDC provider that is created by enabling var.enable-oidc-provider. Used for IRSA (IAM Roles for Service Accounts) and EBS CSI. |
 <!-- END_AUTOMATED_TF_DOCS_BLOCK -->
 
