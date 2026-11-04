@@ -109,7 +109,7 @@ resource "aws_iam_role" "aws_ebs_csi_driver_role" {
         },
         Effect = "Allow",
         Principal = {
-          Federated = "${aws_iam_openid_connect_provider.eks-oidc[0].arn}"
+          Federated = aws_iam_openid_connect_provider.eks-oidc[0].arn
         }
       }
     ]

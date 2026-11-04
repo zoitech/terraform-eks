@@ -29,6 +29,12 @@ variable "cluster-name" {
   default     = ""
   description = "Name of the EKS cluster"
 }
+
+variable "cluster-authentication-mode" {
+  type        = string
+  description = "Authentication mode for the EKS cluster"
+}
+
 variable "master-nodes-k8s-version" {
   type        = string
   default     = ""

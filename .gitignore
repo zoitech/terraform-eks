@@ -12,9 +12,11 @@ crash.log
 
 # .tfvars files
 *.tfvars
+!examples/**/terraform.tfvars
 
 # provider files
 provider.tf
+!examples/**/provider.tf
 
 # Ignore override files as they are usually used to override resources locally and so
 # are not checked in

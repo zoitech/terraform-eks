@@ -2,7 +2,6 @@ module "eks" {
 
   source = "../.."
 
-  region                           = var.region
   cluster-name                     = var.cluster-name
   master-nodes-k8s-version         = var.master-nodes-k8s-version
   worker-nodes-k8s-version         = var.worker-nodes-k8s-version

@@ -2,7 +2,6 @@
 #              OIDC
 ##################################################
 # Enable OIDC provider for the EBS CSI driver and IRSA.
-
 data "tls_certificate" "cluster" {
   count = local.enable-oidc-provider ? 1 : 0
 

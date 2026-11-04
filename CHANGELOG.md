@@ -5,11 +5,12 @@
 BREAKING CHANGES:
 
 * Terraform version 1.4.x or newer is required (`terraform_data`, `optional()` object attributes, `replace_triggered_by`).
-* Provider requirements: `hashicorp/aws ~> 6.0` and `hashicorp/kubernetes ~> 3.0`.
-* **Renamed variables:**
+* Provider requirements: `hashicorp/aws >= 5.0`, `hashicorp/kubernetes >= 3.0`, and `hashicorp/tls >= 4.0`.
+* **Renamed/removed variables:**
   * `eks-version` -> `master-nodes-k8s-version`
   * `nodes-version` -> `worker-nodes-k8s-version`
   * `primary-instance-type` (string) -> `nodegroup-instance-types` (list of strings)
+  * `region` removed (unused in module; AWS region should be configured at the provider level)
 * **Renamed/removed outputs:**
   * `oidc_provider_issuer` -> `cluster_oidc_provider_issuer`
   * `eks_endpoint` -> `cluster_endpoint`
@@ -46,10 +47,14 @@ ADDED:
 * `enabled_cluster_log_types` - Configurable control plane log types (defaults to all types, as before).
 * `aws_auth_labels` - Additional labels for the `aws-auth` ConfigMap.
 * Input validation for `eks_addon_resolve_conflicts_kube_proxy` (`NONE`, `OVERWRITE`, `PRESERVE`).
-* Outputs: `cluster_name`, `cluster_endpoint`, `cluster_certificate_authority_data`, `eks_nodes_role_name`, `secondary_oidc_provider_url`,` secondary_oidc_provider_arn`.
+* Outputs: `cluster_name`, `cluster_endpoint`, `cluster_certificate_authority_data`, `eks_nodes_role_name`, `secondary_oidc_provider_url`, `secondary_oidc_provider_arn`.
+* Example [examples/minimal-secrets-encryption-enabled](examples/minimal-secrets-encryption-enabled/) demonstrating a minimal EKS cluster with KMS secrets encryption.
+* Allow `provider.tf` and `terraform.tfvars` inside `examples/` subdirectories in [.gitignore](.gitignore).
 
 CHANGES:
 
+* **Modernized Terraform HCL syntax** - Replaced legacy index access (e.g. `scaling_config[0].desired_size` instead of deprecated `scaling_config.0.desired_size`) and simplified string interpolations.
+* **Broadened AWS provider constraint** - Relaxed `aws` provider version requirement from `~> 6.0` to `>= 5.0`.
 * **Add-on versions are resolved dynamically** - When an add-on version is not explicitly set, the default version is retrieved via the `aws_eks_addon_version` data source (queried only when needed).
 * **`worker-nodes-k8s-version` is now optional** - If empty (`""`), it defaults to `master-nodes-k8s-version` for both node and add-on version selection. If set, it is used instead, allowing independent version management.
 * Launch template uses `name_prefix` with a `create_before_destroy` lifecycle rule. It is replaced (new node group) when `worker-nodes-k8s-version` or `force_ami_update` changes, via `terraform_data.node_version_trigger`. A new recommended AMI published by AWS updates the launch template in place, which triggers a rolling update of the existing node group.

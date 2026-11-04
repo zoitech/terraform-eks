@@ -289,8 +289,9 @@ provider "kubernetes" {
 | Name | Version |
 | ---- | ------- |
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.4 |
-| <a name="requirement_aws"></a> [aws](#requirement\_aws) | ~> 6.0 |
-| <a name="requirement_kubernetes"></a> [kubernetes](#requirement\_kubernetes) | ~> 2.0 |
+| <a name="requirement_aws"></a> [aws](#requirement\_aws) | >= 5.0 |
+| <a name="requirement_kubernetes"></a> [kubernetes](#requirement\_kubernetes) | >= 3.0 |
+| <a name="requirement_tls"></a> [tls](#requirement\_tls) | >= 4.0 |
 
 ## Providers
 
@@ -400,7 +401,6 @@ No modules.
 | <a name="input_primary-min-nodes-count"></a> [primary-min-nodes-count](#input\_primary-min-nodes-count) | value of the min size of the primary node group | `number` | `0` | no |
 | <a name="input_primary-node-subnets-ids"></a> [primary-node-subnets-ids](#input\_primary-node-subnets-ids) | Subnets in which to deploy the Worker nodes of the primary nodegroup | `list(string)` | `[]` | no |
 | <a name="input_primary-nodes-count"></a> [primary-nodes-count](#input\_primary-nodes-count) | Desired size of the primary node group | `number` | `0` | no |
-| <a name="input_region"></a> [region](#input\_region) | AWS Region | `string` | `"eu-central-1"` | no |
 | <a name="input_secrets_manager_iam_role_arns"></a> [secrets\_manager\_iam\_role\_arns](#input\_secrets\_manager\_iam\_role\_arns) | List of ARNs of IAM roles that can decrypt secrets, this will be added to the KMS key policy for the cluster secrets encryption. | `list(string)` | `[]` | no |
 | <a name="input_service_ipv4_cidr"></a> [service\_ipv4\_cidr](#input\_service\_ipv4\_cidr) | Kubernetes Service IPv4 CIDR. If not specified, EKS default of 172.20.0.0/16 is used. | `string` | `"172.20.0.0/16"` | no |
 | <a name="input_spot-instance-types"></a> [spot-instance-types](#input\_spot-instance-types) | n/a | `list(string)` | `[]` | no |

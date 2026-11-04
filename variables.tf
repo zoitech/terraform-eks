@@ -1,8 +1,3 @@
-variable "region" {
-  type        = string
-  default     = "eu-central-1"
-  description = "AWS Region"
-}
 variable "vpc-id" {
   type        = string
   description = "Vpc id in which to deploy EKS"

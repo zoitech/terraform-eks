@@ -3,7 +3,6 @@ module "eks" {
   source = "../.."
 
   # Mandatory fields
-  region              = var.region
   cluster-name        = var.cluster-name
   vpc-id              = module.vpc.vpc_id
   cluster-subnets-ids = module.vpc.private_subnets

@@ -1,9 +1,3 @@
-variable "region" {
-  type        = string
-  default     = "eu-central-1"
-  description = "AWS Region"
-}
-
 variable "env" {
   description = "Environment"
   default     = "dev"
@@ -161,27 +155,8 @@ variable "owner_tag" {
   default     = ""
 }
 
-#############################################
-#              OIDC                         #
-#############################################
-variable "oidc_provider_issuer" {
-  type        = string
-  description = "oidc_provider_issuer output from EKS module"
-}
-
-variable "eks_svc_account_roles" {
-  description = "Add the name of the IAM role, service account and namespace"
-  type = map(object({
-    role_name      = string
-    namespace      = string
-    svc_account    = string
-    iam_policy_arn = string
-  }))
-  default = {}
-}
-
 variable "enable-oidc-provider" {
-  description = "Enable OIDC provider for the EBS CSI driver"
+  description = "Enable OIDC provider for the EBS CSI driver and IRSA (IAM Roles for Service Accounts)"
   type        = bool
   default     = false
 }

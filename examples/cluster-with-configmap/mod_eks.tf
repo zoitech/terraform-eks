@@ -3,14 +3,13 @@ module "eks" {
   source = "../.."
 
   # Mandatory fields
-  region              = var.region
   cluster-name        = var.cluster-name
   vpc-id              = module.vpc.vpc_id
   cluster-subnets-ids = module.vpc.private_subnets
 
   # Optional fields
-  master-nodes-k8s-version         = "1.34" # latest is used if not specified
-  worker-nodes-k8s-version         = ""     # empty means use master-nodes-k8s-version
+  master-nodes-k8s-version         = "1.37"
+  worker-nodes-k8s-version         = "1.37"
   enable-primary-nodegroup         = true
   primary-nodes-count              = "1"
   primary-min-nodes-count          = "1"

@@ -2,8 +2,8 @@ module "eks" {
 
   source = "../.."
 
-  region                           = var.region
   cluster-name                     = var.cluster-name
+  cluster-authentication-mode         = var.cluster-authentication-mode
   master-nodes-k8s-version         = var.master-nodes-k8s-version
   worker-nodes-k8s-version         = var.worker-nodes-k8s-version
   enable-primary-nodegroup         = var.enable-primary-nodegroup
