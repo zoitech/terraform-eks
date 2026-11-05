@@ -34,7 +34,7 @@ output "eks_nodes_role" {
 
 output "eks_nodes_role_name" {
   description = "IAM role used by EKS node group."
-  value       = var.enable_iam ? aws_iam_role.nodes[0].name : trimprefix(var.eks-nodes-iam-role, "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/")
+  value       = var.enable_iam ? aws_iam_role.nodes[0].name : reverse(split("/", var.eks-nodes-iam-role))[0]
 }
 
 output "secondary_oidc_provider_url" {
