@@ -16,7 +16,7 @@ BREAKING CHANGES:
   * `eks_endpoint` -> `cluster_endpoint`
   * `eks_ca` -> `cluster_certificate_authority_data`
   * `eks_nodes_launch_template_id` removed
-* **Node group names now include the launch template ID** (`{cluster-name}-nodes-{lt-id}` and `{cluster-name}-spot-ng-{lt-id}`) to enable graceful rolling upgrades. Existing primary and spot node groups will be replaced.
+* **Node group naming changed** - Primary node group now uses `node_group_name_prefix` (`{substr(cluster-name, 0, 28)}-nodes-`) and spot node group includes the launch template ID (`{cluster-name}-spot-ng-{lt-id}`) to enable graceful rolling upgrades. Existing primary and spot node groups will be replaced.
 * **kube-proxy and VPC-CNI add-ons are no longer created by `create_eks_addons` alone** - each add-on now needs its own flag (`enable_kube_proxy_addon`, `enable_vpc_cni_addon`, `enable_coredns_addon`, `enable_ebs_csi_addon`), all defaulting to `false`. Set them to `true` on existing clusters, otherwise Terraform will delete the add-ons.
 * **Resource addresses changed** - add a `moved` block or run `terraform state mv` to avoid re-creation:
   * `kubernetes_config_map.aws_auth` -> `kubernetes_config_map_v1.aws_auth`

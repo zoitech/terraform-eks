@@ -32,6 +32,16 @@ module "eks" {
     owner = var.owner_tag
   }
 
+
+  # eks_svc_account_roles            = {
+  # role1 = {
+  #   role_name      = "role1"
+  #   namespace      = "default"
+  #   svc_account    = "service-account-1"
+  #   iam_policy_arn = "arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy"
+  # }
+  # }
+
   # map-users = [
   #   {
   #     userarn  = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:user/test.user"
