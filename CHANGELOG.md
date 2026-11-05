@@ -1,3 +1,11 @@
+## [2.1.9]
+
+Formatting and resource refactoring.
+
+## [2.1.8]
+
+Remove the Kubernetes provider.
+
 ## [2.1.2]
 
 Make CoreDNS optional
