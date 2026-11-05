@@ -41,10 +41,8 @@ data "aws_iam_policy_document" "kms_policy" {
     actions = ["kms:*"]
     effect  = "Allow"
     principals {
-      type = "AWS"
-      identifiers = concat(var.kms_policy_admin_arns, [
-        "arn:aws:iam::${data.aws_caller_identity.current.account_id}:root",
-      ])
+      type        = "AWS"
+      identifiers = var.kms_policy_admin_arns
     }
     resources = ["*"]
   }

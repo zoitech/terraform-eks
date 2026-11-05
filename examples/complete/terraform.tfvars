@@ -15,6 +15,13 @@ enable-private-access       = false
 enable-public-access        = true # Public cluster
 enable-oidc-provider        = true
 
+# Cluster encryption configuration
+# enable_cluster_encryption_config = true
+# cluster_encryption_config       = {
+#   resources = ["secrets"]
+# }
+# secrets_manager_iam_role_arns   = []
+# kms_policy_admin_arns           = []
 
 # add-ons
 create_eks_addons       = true

@@ -297,8 +297,8 @@ provider "kubernetes" {
 
 | Name | Version |
 | ---- | ------- |
-| <a name="provider_aws"></a> [aws](#provider\_aws) | 6.70.0 |
-| <a name="provider_kubernetes"></a> [kubernetes](#provider\_kubernetes) | 2.38.0 |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | 6.72.0 |
+| <a name="provider_kubernetes"></a> [kubernetes](#provider\_kubernetes) | 3.5.0 |
 | <a name="provider_terraform"></a> [terraform](#provider\_terraform) | n/a |
 | <a name="provider_tls"></a> [tls](#provider\_tls) | 4.4.2 |
 
@@ -391,7 +391,7 @@ No modules.
 | <a name="input_enabled_cluster_log_types"></a> [enabled\_cluster\_log\_types](#input\_enabled\_cluster\_log\_types) | List of enabled cluster log types for the EKS cluster | `list(string)` | <pre>[<br/>  "api",<br/>  "audit",<br/>  "authenticator",<br/>  "controllerManager",<br/>  "scheduler"<br/>]</pre> | no |
 | <a name="input_force_ami_update"></a> [force\_ami\_update](#input\_force\_ami\_update) | Change this value to force an AMI update without changing worker-nodes-k8s-version (e.g., for security patches). Increment or change to any different value. | `string` | `"1"` | no |
 | <a name="input_force_update_version"></a> [force\_update\_version](#input\_force\_update\_version) | Forced update if existing pods are unable to be drained | `bool` | `false` | no |
-| <a name="input_kms_policy_admin_arns"></a> [kms\_policy\_admin\_arns](#input\_kms\_policy\_admin\_arns) | List of ARNs of Admins to be added to kms policy | `list(string)` | `[]` | no |
+| <a name="input_kms_policy_admin_arns"></a> [kms\_policy\_admin\_arns](#input\_kms\_policy\_admin\_arns) | List of ARNs of Admins to be added to kms policy. Required when `var.enable_cluster_encryption_config` is true. | `list(string)` | `null` | no |
 | <a name="input_map-roles"></a> [map-roles](#input\_map-roles) | Additional IAM roles to add to the aws-auth configmap. See readme for example format. | <pre>list(object({<br/>    rolearn  = string<br/>    username = string<br/>    groups   = list(string)<br/>  }))</pre> | `[]` | no |
 | <a name="input_map-users"></a> [map-users](#input\_map-users) | Additional IAM users to add to the aws-auth configmap. See readme for example format. | <pre>list(object({<br/>    userarn  = string<br/>    username = string<br/>    groups   = list(string)<br/>  }))</pre> | `[]` | no |
 | <a name="input_master-nodes-k8s-version"></a> [master-nodes-k8s-version](#input\_master-nodes-k8s-version) | Kubernetes version of the EKS master nodes | `string` | n/a | yes |

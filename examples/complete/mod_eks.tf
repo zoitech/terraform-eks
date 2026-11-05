@@ -20,6 +20,12 @@ module "eks" {
   nodes-additional-security-groups = [aws_security_group.eks_nodes_sg.id]
   service_ipv4_cidr                = var.service_ipv4_cidr
 
+  # Cluster encryption configuration
+  enable_cluster_encryption_config = var.enable_cluster_encryption_config
+  cluster_encryption_config        = var.cluster_encryption_config
+  secrets_manager_iam_role_arns    = var.secrets_manager_iam_role_arns
+  kms_policy_admin_arns            = local.kms_policy_admin_arns
+
   # add-ons
   create_eks_addons       = var.create_eks_addons
   enable_vpc_cni_addon    = var.enable_vpc_cni_addon
