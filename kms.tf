@@ -43,7 +43,7 @@ data "aws_iam_policy_document" "kms_policy" {
     principals {
       type = "AWS"
       identifiers = concat(var.kms_policy_admin_arns, [
-        data.aws_caller_identity.current.arn,
+        "arn:aws:iam::${data.aws_caller_identity.current.account_id}:root",
       ])
     }
     resources = ["*"]
