@@ -21,15 +21,18 @@ resource "aws_kms_key_policy" "k8s_secret_key" {
 data "aws_iam_policy_document" "kms_policy" {
   count = var.enable_cluster_encryption_config ? 1 : 0
 
-  statement {
-    sid     = "EKS access"
-    actions = ["kms:Decrypt"]
-    effect  = "Allow"
-    principals {
-      type        = "AWS"
-      identifiers = var.secrets_manager_iam_role_arns
+  dynamic "statement" {
+    for_each = length(var.secrets_manager_iam_role_arns) > 0 ? [var.secrets_manager_iam_role_arns] : []
+    content {
+      sid     = "EKS access"
+      actions = ["kms:Decrypt"]
+      effect  = "Allow"
+      principals {
+        type        = "AWS"
+        identifiers = statement.value
+      }
+      resources = ["*"]
     }
-    resources = ["*"]
   }
 
 
