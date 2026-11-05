@@ -54,7 +54,7 @@ data "aws_iam_policy_document" "kms_policy" {
     effect = "Allow"
     principals {
       type        = "AWS"
-      identifiers = [aws_iam_role.eks-masters[0].arn]
+      identifiers = [var.enable_iam ? aws_iam_role.eks-masters[0].arn : var.eks-masters-iam-role]
     }
     actions = [
       "kms:Encrypt",
@@ -71,7 +71,7 @@ data "aws_iam_policy_document" "kms_policy" {
     effect = "Allow"
     principals {
       type        = "AWS"
-      identifiers = [aws_iam_role.eks-masters[0].arn]
+      identifiers = [var.enable_iam ? aws_iam_role.eks-masters[0].arn : var.eks-masters-iam-role]
     }
     actions = [
       "kms:CreateGrant",
