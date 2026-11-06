@@ -24,24 +24,24 @@ resource "aws_iam_role" "access_eks_service_account_role" {
   name        = each.value.role_name
   description = "Role for AWS Service to access EKS cluster ${var.cluster-name}, with service accounts ${each.value.svc_account}."
 
-
-  assume_role_policy = <<EOF
-{
-	"Version": "2012-10-17",
-	"Statement": [{
-		"Action": "sts:AssumeRoleWithWebIdentity",
-		"Condition": {
-			"StringEquals": {
-        "${trimprefix(split(":", aws_iam_openid_connect_provider.eks-oidc[0].arn)[5], "oidc-provider/")}:sub": "system:serviceaccount:${each.value.namespace}:${each.value.svc_account}"
-		 }
-    },
-		"Effect": "Allow",
-		"Principal": {
-			"Federated": "${aws_iam_openid_connect_provider.eks-oidc[0].arn}"
-		}
-	}]
-}
-EOF
+  assume_role_policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Action = "sts:AssumeRoleWithWebIdentity"
+        Effect = "Allow"
+        Condition = {
+          StringEquals = {
+            "${trimprefix(split(":", aws_iam_openid_connect_provider.eks-oidc[0].arn)[5], "oidc-provider/")}:aud" = "sts.amazonaws.com"
+            "${trimprefix(split(":", aws_iam_openid_connect_provider.eks-oidc[0].arn)[5], "oidc-provider/")}:sub" = "system:serviceaccount:${each.value.namespace}:${each.value.svc_account}"
+          }
+        }
+        Principal = {
+          Federated = aws_iam_openid_connect_provider.eks-oidc[0].arn
+        }
+      }
+    ]
+  })
 }
 
 resource "aws_iam_role_policy_attachment" "access_eks_service_account_role_attachment" {

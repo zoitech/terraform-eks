@@ -1,6 +1,6 @@
 # EKS Setup Module Terraform
 
-**Version 1.0.3** - [Change Log](CHANGELOG.md)
+**Version 3.0.0** - [Change Log](CHANGELOG.md)
 
 Terraform code to set up an AWS EKS cluster.
 
@@ -32,33 +32,6 @@ Prohibited in EKS node group config but need to be added to Launch Template:
 - AMI type, if custom AMI is used.
 - Disk size under Node Group compute configuration on Set compute and scaling configuration page.
 - You can't specify source security groups that are allowed remote access when using a launch template.
-
-* Rember to add the Helm & K8s providers:
-```
-provider "helm" {
-  kubernetes {
-    host                   = module.eks.cluster_endpoint
-    cluster_ca_certificate = base64decode(module.eks.cluster_certificate_authority_data)
-
-    exec {
-      api_version = "client.authentication.k8s.io/v1beta1"
-      args        = ["eks", "get-token", "--cluster-name", var.cluster_name]
-      command     = "aws"
-    }
-  }
-}
-
-provider "kubernetes" {
-  host                   = module.eks.cluster_endpoint
-  cluster_ca_certificate = base64decode(module.eks.cluster_certificate_authority_data)
-
-  exec {
-    api_version = "client.authentication.k8s.io/v1beta1"
-    args        = ["eks", "get-token", "--cluster-name", var.cluster_name]
-    command     = "aws"
-  }
-}
-```
 
 ## aws-auth configmap management
 This feature allows for the management of the aws-auth configmap for the eks cluster, the variable to set it is:
@@ -117,11 +90,11 @@ and pass the ARN of the IAM Roles for the Master and Nodes in the variables
 
 ## Cluster Addons
 
-The cluster addons are installed by default.
+The cluster addons are installed when `enable_addons` is set to true, and also the individual addon. Tt will automatically fetch the version of the addon.
 
 Version selection behaviour:
 
-- If an explicit addon version providedvia the module variables (for example `eks_addon_version_vpc_cni`), that version will be used.
+- If an explicit addon version provided via the module variables (for example `eks_addon_version_vpc_cni`), that version will be used.
 - If the addon version variables are empty, the module will attempt to use a recommended default version mapped to the cluster `master-nodes-k8s-version` (see `locals.add_on_versions`).
 - If there is no mapped values, the addon `addon_version` will be left unset and AWS will select a recommended version.
 
@@ -134,22 +107,11 @@ You can explicitly define what version of each addon to deploy as shown in the e
 ```
   # add-ons
   create_eks_addons                = true
-
   enable_vpc_cni_addon             = true
   enable_coredns_addon             = true
   enable_ebs_csi_addon             = true
   enable_kube_proxy_addon          = true
 
-  eks_additional_addon_configs = {
-  name_of_addon1 = {
-    version = "1.0.0"
-    resolve_conflicts = "NONE" # Not required, default is OVERWRITE
-  },
-  name_of_addon2 = {
-    version = "1.0.0"
-    resolve_conflicts = "NONE" # Not required, default is OVERWRITE
-  }
-}
 ```
 
 If you don't want to manage the addons in the module, please set
@@ -166,8 +128,8 @@ The CIDR chosen should be pass in the variable,
 **service_ipv4_cidr** = "192.168.0.0/16"
 
 ## Secrets Encryption with KMS
-* IAM Roles of IRSAs that need to decrypt secrets in the cluster must be passed in using the secrets_manager_iam_role_arns variable, this will allow the kms decryption.
-* Encryption is enabled by default on the cluster.
+* IAM Roles of IRSAs that need to decrypt secrets in the cluster must be passed in using the `secrets_manager_iam_role_arns` variable, this will allow the kms decryption.
+* `kms_policy_admin_arns` must be set to allow for the Administration of the KMS key.
 
 ## Usage
 
@@ -178,15 +140,14 @@ module "eks" {
   }
   source                           = "git::https://github.com/zoitech/terraform-eks"
 
-  region                           = var.region
   cluster-name                     = var.cluster-name
-  master-nodes-k8s-version                      = var.master-nodes-k8s-version
-  worker-nodes-k8s-version                    = var.worker-nodes-k8s-version
+  master-nodes-k8s-version         = var.master-nodes-k8s-version
+  worker-nodes-k8s-version         = var.worker-nodes-k8s-version
   enable-primary-nodegroup         = var.enable-primary-nodegroup
   primary-nodes-count              = var.primary-nodes-count
   primary-min-nodes-count          = var.primary-min-nodes-count
   primary-max-nodes-count          = var.primary-max-nodes-count
-  primary-instance-type            = var.primary-instance-type
+  nodegroup-instance-types         = var.nodegroup-instance-types
   vpc-id                           = var.vpc-id
   cluster-subnets-ids              = var.cluster-subnets-ids
   primary-node-subnets-ids         = var.primary-node-subnets-ids
@@ -258,13 +219,13 @@ module "eks" {
 
 # Providers
 provider "helm" {
-  kubernetes {
+  kubernetes = {
     host                   = module.eks.cluster_endpoint
     cluster_ca_certificate = base64decode(module.eks.cluster_certificate_authority_data)
 
-    exec {
+    exec = {
       api_version = "client.authentication.k8s.io/v1beta1"
-      args        = ["eks", "get-token", "--cluster-name", var.cluster_name]
+      args        = ["eks", "get-token", "--cluster-name", var.cluster-name]
       command     = "aws"
     }
   }
@@ -276,7 +237,7 @@ provider "kubernetes" {
 
   exec {
     api_version = "client.authentication.k8s.io/v1beta1"
-    args        = ["eks", "get-token", "--cluster-name", var.cluster_name]
+    args        = ["eks", "get-token", "--cluster-name", var.cluster-name]
     command     = "aws"
   }
 }

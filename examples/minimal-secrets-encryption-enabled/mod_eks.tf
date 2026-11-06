@@ -8,7 +8,7 @@ module "eks" {
   cluster-subnets-ids = module.vpc.private_subnets
 
   # Optional fields
-  master-nodes-k8s-version         = "1.34" # latest is used if not specified
+  master-nodes-k8s-version         = "1.37" # latest is used if not specified
   worker-nodes-k8s-version         = ""     # empty means use master-nodes-k8s-version
   enable-primary-nodegroup         = true
   primary-nodes-count              = "1"

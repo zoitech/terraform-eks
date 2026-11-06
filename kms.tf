@@ -1,7 +1,10 @@
 resource "aws_kms_key" "k8s_secret_key" {
   count = var.enable_cluster_encryption_config ? 1 : 0
 
-  description = "KMS key for encrypting Kubernetes secrets"
+  description = "KMS key for encrypting Kubernetes secrets in ${var.cluster-name}"
+  enable_key_rotation     = true
+  deletion_window_in_days = 30
+  tags                    = var.tags
 }
 
 resource "aws_kms_alias" "k8s_secret_key_alias" {
@@ -37,9 +40,24 @@ data "aws_iam_policy_document" "kms_policy" {
 
 
   statement {
-    sid     = "Allow administration of the key"
-    actions = ["kms:*"]
-    effect  = "Allow"
+    sid = "Allow administration of the key"
+    actions = [
+      "kms:Create*",
+      "kms:Describe*",
+      "kms:Enable*",
+      "kms:List*",
+      "kms:Put*",
+      "kms:Update*",
+      "kms:Revoke*",
+      "kms:Disable*",
+      "kms:Get*",
+      "kms:Delete*",
+      "kms:TagResource",
+      "kms:UntagResource",
+      "kms:ScheduleKeyDeletion",
+      "kms:CancelKeyDeletion"
+    ]
+    effect = "Allow"
     principals {
       type        = "AWS"
       identifiers = var.kms_policy_admin_arns
