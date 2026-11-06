@@ -1,10 +1,10 @@
-resource "kubernetes_config_map" "aws_auth" {
+resource "kubernetes_config_map_v1" "aws_auth" {
   count = var.enable-aws-auth ? 1 : 0
 
   metadata {
     name      = "aws-auth"
     namespace = "kube-system"
-    labels = merge(
+    labels = merge(var.aws_auth_labels,
       {
         "app.kubernetes.io/managed-by" = "Terraform"
       },
