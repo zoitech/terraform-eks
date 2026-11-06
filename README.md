@@ -8,19 +8,25 @@ Terraform code to set up an AWS EKS cluster.
 
 ## Description
 
-Create an EKS cluster with one NodeGroup
+Create an AWS EKS cluster with managed node groups, add-ons, authentication (EKS Access Entries or `aws-auth` ConfigMap), IRSA, and optional KMS secrets encryption.
 
-The following Resources will be created:
+## Resources
+The following resources are created by default:
 
-- EKS masters
-- EKS NodeGroups
-- IAM Roles for EKS service to create other AWS resources
-- Security Groups for communication with the cluster
+- EKS Control Plane (`aws_eks_cluster`)
+- Launch Template for worker nodes (using EKS-optimized Amazon Linux 2023 AMIs)
+- IAM Roles for the EKS cluster and worker nodes (when `enable_iam = true`)
+- Security Groups for cluster and node communication
 
 Full list of [Resources](#resources)
 
 ### Optional Resources
-- EKS Addons
+- Primary (On-Demand) and Spot EKS Managed Node Groups (`enable-primary-nodegroup`, `enable-spot-instances`)
+- EKS Managed Add-ons (`vpc-cni`, `coredns`, `kube-proxy`, `aws-ebs-csi-driver`)
+- EKS Access Entries & Policy Associations (`eks_ns_access_entries`)
+- Legacy `aws-auth` ConfigMap (`enable-aws-auth`)
+- IAM OIDC Provider and IAM Roles for Service Accounts (IRSA) (`enable-oidc-provider`, `eks_svc_account_roles`)
+- KMS Key, Alias, and Policy for Kubernetes Secrets encryption (`enable_cluster_encryption_config`)
 
 ## Information
 Prohibited in Launch Template:
@@ -33,114 +39,137 @@ Prohibited in EKS node group config but need to be added to Launch Template:
 - Disk size under Node Group compute configuration on Set compute and scaling configuration page.
 - You can't specify source security groups that are allowed remote access when using a launch template.
 
-## aws-auth configmap management
-This feature allows for the management of the aws-auth configmap for the eks cluster, the variable to set it is:
-- enable-aws-auth = true
+### Node AMI & Userdata (`Amazon Linux 2023`)
+- Worker nodes use the recommended EKS-optimized Amazon Linux 2023 (`x86_64`) AMI retrieved via `aws_ssm_parameter`.
+- The effective Kubernetes version for worker nodes (`local.effective_nodes_version`) is `var.worker-nodes-k8s-version` when set; otherwise it falls back to `var.master-nodes-k8s-version`.
+- Changing `worker-nodes-k8s-version` or `force_ami_update` triggers a new launch template and a graceful rolling replacement (`create_before_destroy`) of the node groups.
+- Default userdata configures nodes using `nodeadm` (`apiVersion: node.eks.aws/v1alpha1`, `kind: NodeConfig`). If you provide a custom `userdata-file`, it must include the `NodeConfig` block from [userdata.tf](userdata.tf).
 
-* This needs to be set at cluster creation otherwise it will not work, you cannot manage the aws-auth file from terraform if the cluster was already created and AWS created the file.
+## Cluster Authentication
+
+The cluster authentication mode is controlled via `cluster-authentication-mode` (defaults to `"API_AND_CONFIG_MAP"` for backward compatibility; can be set to `"API"` or `"CONFIG_MAP"`).
+
+### EKS Access Entries (Recommended)
+When using `API` or `API_AND_CONFIG_MAP` authentication modes, you can manage cluster access via `eks_ns_access_entries`:
+
+```hcl
+eks_ns_access_entries = {
+  cluster_admin = {
+    principal_arn     = "arn:aws:iam::123456789012:role/eks-admin-role"
+    policy_arns       = ["arn:aws:eks::aws:cluster-access-policy/AmazonEKSClusterAdminPolicy"]
+    access_scope_type = "cluster"
+  }
+  namespace_dev = {
+    principal_arn     = "arn:aws:iam::123456789012:role/eks-dev-role"
+    policy_arns       = ["arn:aws:eks::aws:cluster-access-policy/AmazonEKSEditPolicy"]
+    access_scope_type = "namespace"
+    namespaces        = ["dev", "staging"]
+    kubernetes_groups = ["custom-crd-readers"]
+  }
+}
+```
+
+### aws-auth ConfigMap Management (Legacy)
+This feature allows managing the `aws-auth` ConfigMap in `kube-system`:
+- `enable-aws-auth = true`
+
+* This needs to be set at cluster creation otherwise it will not work; you cannot manage the `aws-auth` ConfigMap from Terraform if the cluster was already created and AWS created the ConfigMap.
+* If `cluster-authentication-mode = "CONFIG_MAP"` on a new cluster, set `bootstrap_cluster_creator_admin_permissions = true`.
 
 Variable structure information:
-* Rolearn/userarn are the IAM arns for the Role/user that we are attaching the username and groups within k8s.
-* Groups, are the groups within k8s.
-* username is the username within k8s that the principal will have.
-* {{SessionName}} will allow us to use the aws iam session name of the user to add to the username in k8s.
+* `rolearn` / `userarn` are the IAM ARNs for the role/user that we are attaching the username and groups within k8s.
+* `groups` are the RBAC groups within k8s.
+* `username` is the username within k8s that the principal will have.
+* `{{SessionName}}` allows using the AWS IAM session name of the assumed role in the k8s username.
 
-e.g of variables for aws-auth:
-```
-map-users = [
-    {
-      userarn  = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:user/test.user"
-      groups   = ["system:masters"]
-      username = "test1"
-    },
-    {
-      userarn  = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:user/test.two"
-      groups   = ["system:masters"]
-      username = "test2"
-    }
-  ]
+Example of variables for `aws-auth` in [Usage](#usage) example.
 
-  map-roles = [
-    {
-      rolearn  = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/test-role"
-      groups   = ["system:masters"]
-      username = "test_admin_{{SessionName}}"
-    },
-    {
-      rolearn  = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/test-role-2"
-      groups   = ["system:masters"]
-      username = "test2_admin_{{SessionName}}"
-    }
-  ]
-```
+## IAM Roles & OIDC / IRSA
 
-## IAM Roles
-
-By default the necessary IAM Roles are created in the cluster setup.
-If you like to create the IAM Roles outside of the deployment, then you should set
+By default, the necessary IAM Roles for the control plane and worker nodes are created during cluster setup.
+If you prefer to create the IAM Roles outside of the module, set:
 
 **enable_iam** = false
 
-and pass the ARN of the IAM Roles for the Master and Nodes in the variables
+and pass the ARNs of the IAM Roles for the Master and Nodes in the variables:
 
-**eks-masters-iam-role** = "arn:aws:iam::123456789:role/role_eks_cluster_test-cluster"
+**eks-masters-iam-role** = "arn:aws:iam::123456789012:role/role_eks_cluster_test-cluster"
 
-**eks-nodes-iam-role** = "arn:aws:iam::987654321:role/role_eks_nodes_test-cluster"
+**eks-nodes-iam-role** = "arn:aws:iam::123456789012:role/role_eks_nodes_test-cluster"
 
+### OIDC Provider & Service Account Roles (IRSA)
+To create an IAM OIDC provider for the cluster, set `enable-oidc-provider = true` (it is also enabled automatically when `enable_ebs_csi_addon = true`). You can provision IAM roles scoped to Kubernetes service accounts using `eks_svc_account_roles`:
+
+```hcl
+  enable-oidc-provider = true
+
+  eks_svc_account_roles = {
+    role1 = {
+      role_name      = "my-app-irsa-role"
+      namespace      = "default"
+      svc_account    = "my-app-sa"
+      iam_policy_arn = "arn:aws:iam::123456789012:policy/MyAppPolicy"
+    }
+  }
+```
 
 ## Cluster Addons
 
-The cluster addons are installed when `enable_addons` is set to true, and also the individual addon. Tt will automatically fetch the version of the addon.
+EKS managed add-ons are created when `create_eks_addons = true` (default) and the respective add-on flag is enabled (`enable_vpc_cni_addon`, `enable_coredns_addon`, `enable_ebs_csi_addon`, `enable_kube_proxy_addon` — all default to `false`).
 
 Version selection behaviour:
 
-- If an explicit addon version provided via the module variables (for example `eks_addon_version_vpc_cni`), that version will be used.
-- If the addon version variables are empty, the module will attempt to use a recommended default version mapped to the cluster `master-nodes-k8s-version` (see `locals.add_on_versions`).
-- If there is no mapped values, the addon `addon_version` will be left unset and AWS will select a recommended version.
+- If an explicit add-on version is provided via the module variables (`eks_addon_version_vpc_cni`, `eks_addon_version_kube_proxy`, `eks_addon_version_core_dns`, `ebs_csi_driver_version`), that version is used.
+- If the add-on version variable is left empty (`""`), the module dynamically queries the `aws_eks_addon_version` data source for the default version matching `var.master-nodes-k8s-version`.
+- For CoreDNS, custom configuration values (such as a custom `corefile`) can be passed as a JSON string via `coredns_configuration_values`.
+- When `enable_ebs_csi_addon = true`, the module automatically enables the OIDC provider and creates a dedicated IAM role (`EBSCSIDriverRole_<cluster-name>`) with `AmazonEBSCSIDriverPolicy` attached.
 
-Node AMI selection:
-
-- The AMI lookup used for node groups uses an "effective" nodes version. This is `var.worker-nodes-k8s-version` when set, otherwise the module falls back to `var.master-nodes-k8s-version`. The module implements this as `local.effective_nodes_version`. Ensure at least one of `master-nodes-k8s-version` or `worker-nodes-k8s-version` is provided so the AMI SSM parameter lookup resolves correctly.
-
-You can explicitly define what version of each addon to deploy as shown in the example below,
-
-```
+```hcl
   # add-ons
-  create_eks_addons                = true
-  enable_vpc_cni_addon             = true
-  enable_coredns_addon             = true
-  enable_ebs_csi_addon             = true
-  enable_kube_proxy_addon          = true
-
+  create_eks_addons       = true
+  enable_vpc_cni_addon    = true
+  enable_coredns_addon    = true
+  enable_ebs_csi_addon    = true
+  enable_kube_proxy_addon = true
 ```
 
-If you don't want to manage the addons in the module, please set
+If you don't want to manage any add-ons in the module, set:
 
-**create_eks_addons** = "false"
+**create_eks_addons** = false
 
 
 ## Network configuration
 
-In the Kubernetes network configuration for the cluster, you define the CIDR block to assign Kubernetes service IP addresses, within one of the following private IP address blocks: 10.0.0.0/8, 172.16.0.0.0/12, or 192.168.0.0/16.
+In the Kubernetes network configuration for the cluster, you define the CIDR block to assign Kubernetes service IP addresses, within one of the following private IP address blocks: `10.0.0.0/8`, `172.16.0.0/12`, or `192.168.0.0/16` (defaults to `"172.20.0.0/16"`).
 
-The CIDR chosen should be pass in the variable,
+The CIDR chosen can be passed in the variable:
 
 **service_ipv4_cidr** = "192.168.0.0/16"
 
 ## Secrets Encryption with KMS
-* IAM Roles of IRSAs that need to decrypt secrets in the cluster must be passed in using the `secrets_manager_iam_role_arns` variable, this will allow the kms decryption.
-* `kms_policy_admin_arns` must be set to allow for the Administration of the KMS key.
+* Set `enable_cluster_encryption_config = true` to create a customer-managed KMS key (with key rotation enabled) and encrypt Kubernetes secrets (`cluster_encryption_config`).
+* `kms_policy_admin_arns` **must** be set to a non-empty list of valid IAM ARNs (`arn:aws:iam::<account_id>:...`) when `enable_cluster_encryption_config = true`. The IAM principal running Terraform is **not** added by default (you can include it via `data.aws_iam_session_context` / `data.aws_caller_identity`, as shown in [examples/complete](examples/complete/)).
+* IAM role ARNs that need to decrypt secrets can be passed in using `secrets_manager_iam_role_arns`.
+
+## Examples
+
+See the [examples](examples/) directory for working configurations:
+- [examples/basic](examples/basic/) - Basic EKS cluster using `API` authentication mode and managed add-ons.
+- [examples/complete](examples/complete/) - Complete EKS cluster with VPC, primary and spot node groups, add-ons, OIDC/IRSA, and KMS secrets encryption support.
+- [examples/cluster-with-configmap](examples/cluster-with-configmap/) - EKS cluster managing the `aws-auth` ConfigMap.
+- [examples/minimal-secrets-encryption-enabled](examples/minimal-secrets-encryption-enabled/) - Minimal EKS cluster with KMS secrets encryption enabled.
 
 ## Usage
 
-```
+```hcl
 module "eks" {
   providers = {
     aws = aws
   }
-  source                           = "git::https://github.com/zoitech/terraform-eks"
+  source = "git::https://github.com/zoitech/terraform-eks"
 
   cluster-name                     = var.cluster-name
+  cluster-authentication-mode      = var.cluster-authentication-mode
   master-nodes-k8s-version         = var.master-nodes-k8s-version
   worker-nodes-k8s-version         = var.worker-nodes-k8s-version
   enable-primary-nodegroup         = var.enable-primary-nodegroup
@@ -167,24 +196,28 @@ module "eks" {
   eks-nodes-iam-role               = var.eks-nodes-iam-role
   service_ipv4_cidr                = var.service_ipv4_cidr
 
+  # Cluster encryption configuration
+  enable_cluster_encryption_config = var.enable_cluster_encryption_config
+  cluster_encryption_config        = var.cluster_encryption_config
+  kms_policy_admin_arns            = var.kms_policy_admin_arns
+  secrets_manager_iam_role_arns    = var.secrets_manager_iam_role_arns
+
+  # OIDC & IRSA
+  enable-oidc-provider  = var.enable-oidc-provider
+  eks_svc_account_roles = var.eks_svc_account_roles
+
   # add-ons
-  create_eks_addons                = var.create_eks_addons
-  enable_vpc_cni_addon             = var.enable_vpc_cni_addon
-  enable_coredns_addon             = var.enable_coredns_addon
-  enable_ebs_csi_addon             = var.enable_ebs_csi_addon
-  enable_kube_proxy_addon          = var.enable_kube_proxy_addon
+  create_eks_addons       = var.create_eks_addons
+  enable_vpc_cni_addon    = var.enable_vpc_cni_addon
+  enable_coredns_addon    = var.enable_coredns_addon
+  enable_ebs_csi_addon    = var.enable_ebs_csi_addon
+  enable_kube_proxy_addon = var.enable_kube_proxy_addon
 
-  eks_additional_addon_configs = {
-    name_of_addon1 = {
-      version = ""
-      resolve_conflicts = "" # value default is OVERWRITE
-    },
-    name_of_addon2 = {
-      version = ""
-      resolve_conflicts = "" # value default is OVERWRITE
-    }
-  }
+  # Access entries (when using API or API_AND_CONFIG_MAP authentication mode)
+  eks_ns_access_entries = var.eks_ns_access_entries
 
+  # aws-auth ConfigMap (legacy)
+  enable-aws-auth = var.enable-aws-auth
   map-users = [
     {
       userarn  = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:user/test.user"
@@ -212,7 +245,7 @@ module "eks" {
   ]
 
   tags = {
-    owner = "example@test.com"
+    owner       = "example@test.com"
     environment = "test"
   }
 }
@@ -241,7 +274,6 @@ provider "kubernetes" {
     command     = "aws"
   }
 }
-
 ```
 
 <!-- BEGIN_AUTOMATED_TF_DOCS_BLOCK -->
