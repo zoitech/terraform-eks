@@ -1,14 +1,14 @@
 resource "aws_eks_node_group" "spot_cluster_nodes" {
   count = var.enable-spot-instances ? 1 : 0
 
-  cluster_name         = aws_eks_cluster.cluster-masters.name
+  cluster_name           = aws_eks_cluster.cluster-masters.name
   node_group_name_prefix = "${substr(var.cluster-name, 0, 28)}-spot-nodes-"
-  node_role_arn        = var.enable_iam ? aws_iam_role.nodes[0].arn : var.eks-nodes-iam-role
-  subnet_ids           = var.spot-node-subnets-ids
-  capacity_type        = "SPOT"
-  instance_types       = var.spot-instance-types
-  force_update_version = var.force_update_version
-  tags                 = var.tags
+  node_role_arn          = var.enable_iam ? aws_iam_role.nodes[0].arn : var.eks-nodes-iam-role
+  subnet_ids             = var.spot-node-subnets-ids
+  capacity_type          = "SPOT"
+  instance_types         = var.spot-instance-types
+  force_update_version   = var.force_update_version
+  tags                   = var.tags
 
   launch_template {
     id      = aws_launch_template.cluster-nodes-launch-template.id

@@ -370,11 +370,11 @@ variable "secrets_manager_iam_role_arns" {
   type        = list(string)
 
   validation {
-  condition = alltrue([
-    for arn in var.secrets_manager_iam_role_arns : can(regex("^arn:aws[a-zA-Z-]*:iam::[0-9]{12}:role/.+$", arn))
-  ])
-  error_message = "All secrets_manager_iam_role_arns entries must be valid IAM Role ARNs."
-}
+    condition = alltrue([
+      for arn in var.secrets_manager_iam_role_arns : can(regex("^arn:aws[a-zA-Z-]*:iam::[0-9]{12}:role/.+$", arn))
+    ])
+    error_message = "All secrets_manager_iam_role_arns entries must be valid IAM Role ARNs."
+  }
 
 }
 variable "kms_policy_admin_arns" {

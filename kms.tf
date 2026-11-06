@@ -1,7 +1,7 @@
 resource "aws_kms_key" "k8s_secret_key" {
   count = var.enable_cluster_encryption_config ? 1 : 0
 
-  description = "KMS key for encrypting Kubernetes secrets in ${var.cluster-name}"
+  description             = "KMS key for encrypting Kubernetes secrets in ${var.cluster-name}"
   enable_key_rotation     = true
   deletion_window_in_days = 30
   tags                    = var.tags
