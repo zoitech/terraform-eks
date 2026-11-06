@@ -45,9 +45,9 @@ EOF
 }
 
 resource "aws_iam_role_policy_attachment" "access_eks_service_account_role_attachment" {
-  for_each = aws_iam_role.access_eks_service_account_role
+  for_each = local.enable-oidc-provider ? var.eks_svc_account_roles : {}
 
-  role       = each.value.name
-  policy_arn = var.eks_svc_account_roles[each.key].iam_policy_arn
+  role       = aws_iam_role.access_eks_service_account_role[each.key].name
+  policy_arn = each.value.iam_policy_arn
 }
 
