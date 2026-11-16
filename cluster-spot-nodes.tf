@@ -1,14 +1,14 @@
 resource "aws_eks_node_group" "spot_cluster_nodes" {
-  count           = var.enable-spot-instances ? 1 : 0
-  
-  cluster_name    = var.cluster-name
-  node_group_name = "${var.cluster-name}-spot-ng"
-  node_role_arn   = var.enable_iam ? aws_iam_role.nodes[0].arn : var.eks-nodes-iam-role
-  subnet_ids      = var.spot-node-subnets-ids
-  version         = var.nodes-version
-  capacity_type   = "SPOT"
-  instance_types  = var.spot-instance-types
-  tags            = var.tags
+  count = var.enable-spot-instances ? 1 : 0
+
+  cluster_name           = aws_eks_cluster.cluster-masters.name
+  node_group_name_prefix = "${substr(var.cluster-name, 0, 28)}-spot-nodes-"
+  node_role_arn          = var.enable_iam ? aws_iam_role.nodes[0].arn : var.eks-nodes-iam-role
+  subnet_ids             = var.spot-node-subnets-ids
+  capacity_type          = "SPOT"
+  instance_types         = var.spot-instance-types
+  force_update_version   = var.force_update_version
+  tags                   = var.tags
 
   launch_template {
     id      = aws_launch_template.cluster-nodes-launch-template.id
@@ -22,7 +22,8 @@ resource "aws_eks_node_group" "spot_cluster_nodes" {
   }
 
   lifecycle {
-    ignore_changes = [scaling_config.0.desired_size]
+    ignore_changes        = [scaling_config[0].desired_size]
+    create_before_destroy = true
   }
 
   depends_on = [
@@ -31,8 +32,6 @@ resource "aws_eks_node_group" "spot_cluster_nodes" {
     aws_iam_role_policy_attachment.AmazonEC2ContainerRegistryReadOnly,
     aws_eks_cluster.cluster-masters,
     aws_launch_template.cluster-nodes-launch-template,
-    kubernetes_config_map.aws_auth,
-    aws_eks_addon.kube_proxy,
-    aws_eks_addon.vpc-cni
+    kubernetes_config_map_v1.aws_auth
   ]
 }

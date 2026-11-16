@@ -18,7 +18,7 @@ resource "aws_security_group_rule" "Group-eks-self" {
   from_port         = 0
   protocol          = "-1"
   security_group_id = aws_security_group.Group-eks.id
-  to_port           = "0"
+  to_port           = 0
   type              = "ingress"
 }
 
@@ -38,10 +38,12 @@ resource "aws_security_group" "Group-eks-nodes" {
 
 resource "aws_security_group_rule" "Group-eks-nodes-self" {
   self              = true
-  description       = "Allow commumication within nodes"
+  description       = "Allow communication within nodes"
   from_port         = 0
   protocol          = "-1"
   security_group_id = aws_security_group.Group-eks-nodes.id
-  to_port           = "0"
+  to_port           = 0
   type              = "ingress"
 }
+
+
