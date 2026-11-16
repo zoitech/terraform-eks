@@ -23,8 +23,8 @@ module "eks" {
   # Cluster encryption configuration
   enable_cluster_encryption_config = var.enable_cluster_encryption_config
   cluster_encryption_config        = var.cluster_encryption_config
-  secrets_manager_iam_role_arns    = var.secrets_manager_iam_role_arns
-  kms_policy_admin_arns            = local.kms_policy_admin_arns
+  secrets_manager_iam_role_arns    = [data.aws_iam_session_context.current.arn]
+  kms_policy_admin_arns            = [data.aws_iam_session_context.current.arn]
 
   # add-ons
   create_eks_addons       = var.create_eks_addons

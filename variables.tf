@@ -369,13 +369,6 @@ variable "secrets_manager_iam_role_arns" {
   default     = []
   type        = list(string)
 
-  validation {
-    condition = alltrue([
-      for arn in var.secrets_manager_iam_role_arns : can(regex("^arn:aws[a-zA-Z-]*:iam::[0-9]{12}:role/.+$", arn))
-    ])
-    error_message = "All secrets_manager_iam_role_arns entries must be valid IAM Role ARNs."
-  }
-
 }
 variable "kms_policy_admin_arns" {
   type        = list(string)
@@ -389,15 +382,6 @@ variable "kms_policy_admin_arns" {
       : true
     )
     error_message = "kms_policy_admin_arns must be a non-empty list of ARNs when enable_cluster_encryption_config is true. The IAM principal running the Terraform code will not be added by default, you can add with a data source."
-  }
-
-  validation {
-    condition = (
-      var.kms_policy_admin_arns == null ? true : alltrue([
-        for arn in var.kms_policy_admin_arns : can(regex("^arn:aws[a-zA-Z-]*:iam::[0-9]{12}:.+$", arn))
-      ])
-    )
-    error_message = "All kms_policy_admin_arns entries must be valid IAM ARNs (arn:aws:iam::<account_id>:...)."
   }
 }
 #############################################

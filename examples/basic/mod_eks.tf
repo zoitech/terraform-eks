@@ -21,6 +21,12 @@ module "eks" {
   cluster-authentication-mode      = "API"
   enable-oidc-provider             = var.enable-oidc-provider
 
+  # Cluster encryption configuration
+  enable_cluster_encryption_config = var.enable_cluster_encryption_config
+  cluster_encryption_config        = var.cluster_encryption_config
+  secrets_manager_iam_role_arns    = [data.aws_iam_session_context.current.arn]
+  kms_policy_admin_arns            = [data.aws_iam_session_context.current.arn]
+  
   # add-ons
   create_eks_addons       = var.create_eks_addons
   enable_vpc_cni_addon    = var.enable_vpc_cni_addon

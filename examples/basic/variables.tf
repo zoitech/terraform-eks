@@ -1,3 +1,8 @@
+variable "region" {
+  description = "AWS region where the EKS cluster will be deployed"
+  type        = string
+  default     = "eu-central-1"
+}
 variable "env" {
   description = "Environment"
   default     = "dev"
@@ -97,6 +102,18 @@ variable "nodes-additional-security-groups" {
   type        = list(string)
   default     = []
   description = "Additional security groups to attach to the Worker nodes"
+}
+
+variable "enable_cluster_encryption_config" {
+  type        = bool
+  description = "Enable cluster encryption configuration"
+  default     = false
+}
+
+variable "cluster_encryption_config" {
+  type        = map(any)
+  description = "Cluster encryption configuration"
+  default     = {}
 }
 
 #aws-auth

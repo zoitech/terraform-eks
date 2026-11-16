@@ -1,5 +1,7 @@
+region   = "eu-central-1"
+vpc_id   = ""
+
 cluster-name             = "test-cluster"
-vpc_id                   = ""
 eks_subnet_ids           = ["subnet-", "subnet-", "subnet-"]
 master-nodes-k8s-version = "1.37"
 worker-nodes-k8s-version = "1.37"
@@ -13,6 +15,12 @@ enable-public-access     = true # Public cluster
 service_ipv4_cidr        = "172.20.0.0/16"
 enable-oidc-provider     = true
 
+# Cluster encryption configuration
+enable_cluster_encryption_config = true
+cluster_encryption_config       = {
+  resources = ["secrets"]
+}
+
 # add-ons
 create_eks_addons       = true
 enable_vpc_cni_addon    = true
@@ -21,4 +29,4 @@ enable_ebs_csi_addon    = true
 enable_kube_proxy_addon = true
 
 # Tags
-owner_tag = "test.user@example.com"
+owner_tag = "test@example.tech"
